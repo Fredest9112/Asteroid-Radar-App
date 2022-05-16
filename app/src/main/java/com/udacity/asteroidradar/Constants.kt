@@ -5,4 +5,6 @@ object Constants {
     const val DEFAULT_END_DATE_DAYS = 7
     const val BASE_URL = "https://api.nasa.gov/"
     const val PICTURE_DAY = "planetary/apod?api_key=wT9VJl9RYcLFrQDTvlwGTu24BkSHy3l8SU7eAmIi"
+    const val ASTEROIDS_DATA = "neo/rest/v1/feed"
+    const val API_KEY = "wT9VJl9RYcLFrQDTvlwGTu24BkSHy3l8SU7eAmIi"
 }

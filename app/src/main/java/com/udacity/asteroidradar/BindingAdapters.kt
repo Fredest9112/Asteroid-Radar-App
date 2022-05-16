@@ -12,7 +12,6 @@ import com.udacity.asteroidradar.main.PictureApiStatus
 fun bindPictureOfTheDayImage(imageView: ImageView, url: String?) {
     url?.let {
         if (url.isNotEmpty()) {
-            Log.i("bindPicture", "$url")
             Picasso.get().load(it).fit().into(imageView)
         }
     }
@@ -23,17 +22,13 @@ fun bindDailyPictureStatus(statusImageView: ImageView, status: PictureApiStatus)
     statusImageView.bringToFront()
     when (status) {
         PictureApiStatus.LOADING -> {
-            Log.i("image", "Loading")
             statusImageView.visibility = View.VISIBLE
-
             statusImageView.setImageResource(R.drawable.loading_animation)
         }
         PictureApiStatus.DONE -> {
-            Log.i("image", "Done")
             statusImageView.visibility = View.GONE
         }
         PictureApiStatus.ERROR -> {
-            Log.i("image", "Error")
             statusImageView.visibility = View.VISIBLE
             statusImageView.setImageResource(R.drawable.signal_cellular_connected_no_internet)
         }
