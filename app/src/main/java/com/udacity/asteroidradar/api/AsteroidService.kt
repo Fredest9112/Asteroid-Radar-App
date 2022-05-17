@@ -3,10 +3,10 @@ package com.udacity.asteroidradar.api
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.udacity.asteroidradar.Constants.ASTEROIDS_DATA
-import com.udacity.asteroidradar.Constants.BASE_URL
-import com.udacity.asteroidradar.Constants.PICTURE_DAY
-import com.udacity.asteroidradar.PictureOfDay
+import com.udacity.asteroidradar.data.Constants.ASTEROIDS_DATA
+import com.udacity.asteroidradar.data.Constants.BASE_URL
+import com.udacity.asteroidradar.data.Constants.PICTURE_DAY
+import com.udacity.asteroidradar.data.PictureOfDay
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -24,7 +24,7 @@ interface AsteroidService {
         @Query("START_DATE") startDate: String,
         @Query("END_DATE") endDate: String,
         @Query("API_KEY") apiKey: String
-    ): Deferred<Response<String>>
+    ): Deferred<String>
 }
 
 private val moshi = Moshi.Builder()
@@ -32,11 +32,6 @@ private val moshi = Moshi.Builder()
     .build()
 
 object NetWork {
-    private val retrofitPicture = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .build()
 
     private val retrofitAsteroids = Retrofit.Builder()
         .addConverterFactory(ScalarsConverterFactory.create())
@@ -45,6 +40,5 @@ object NetWork {
         .baseUrl(BASE_URL)
         .build()
 
-    val dailyPicture: AsteroidService = retrofitPicture.create(AsteroidService::class.java)
-    val asteroids: AsteroidService = retrofitAsteroids.create(AsteroidService::class.java)
+    val asteroidsData: AsteroidService = retrofitAsteroids.create(AsteroidService::class.java)
 }
