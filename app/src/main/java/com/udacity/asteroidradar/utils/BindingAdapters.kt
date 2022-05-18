@@ -4,9 +4,18 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.data.Asteroid
+import com.udacity.asteroidradar.main.AsteroidAdapter
 import com.udacity.asteroidradar.model.PictureApiStatus
+
+@BindingAdapter("listData")
+fun bindRecyclerView(recyclerView: RecyclerView, asteroids: List<Asteroid>?){
+    val adapter = recyclerView.adapter as AsteroidAdapter
+    adapter.submitList(asteroids)
+}
 
 @BindingAdapter("pictureOfTheDay")
 fun bindPictureOfTheDayImage(imageView: ImageView, url: String?) {
