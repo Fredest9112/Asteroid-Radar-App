@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="next_week_asteroids">Ver asteroides de la semana</string>
+    <string name="today_asteroids">Ver asteroides de hoy</string>
+    <string name="saved_asteroids">Ver asteroides guardados</string>
+    <string name="close_approach_data_title">Fecha de aproximacion</string>
+    <string name="absolute_magnitude_title">Magnitud absoluta</string>
+    <string name="estimated_diameter_title">Diametro estimado</string>
+    <string name="relative_velocity_title">Velocidad relativa</string>
+    <string name="distance_from_earth_title">Distancia desde la tierra</string>
+    <string name="image_of_the_day">Imagen del día</string>
+    <string name="astronomica_unit_explanation">Las unidades astronomicas (au) son una medida de longitud, aproximadamente la distancia desde la tierra hasta el sol e igual a cerca de 150 millones de kilometros</string>
+    <string name="astronomical_unit_explanation_button">Definicion de unidad astronomica</string>
+    <string name="potentially_hazardous_asteroid_image">Asteroide potencialmente peligroso</string>
+    <string name="not_hazardous_asteroid_image">Asteroide inofensivo</string>
+    <string name="this_is_nasa_s_picture_of_day_showing_nothing_yet">Esta es la imagen diaria de la NASA, todavia sin mostrar</string>
+    <string name="nasa_picture_of_day_content_description_format">Imagen del día de la Nasa: %s</string>
+</resources>
