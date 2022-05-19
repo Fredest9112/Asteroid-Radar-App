@@ -4,16 +4,25 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.R
-import com.udacity.asteroidradar.data.Date
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import com.udacity.asteroidradar.model.AsteroidStatus
 import com.udacity.asteroidradar.model.MainViewModel
+import com.udacity.asteroidradar.model.MainViewModelFactory
 
 class MainFragment : Fragment() {
 
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var asteroidAdapter: AsteroidAdapter
+
+    private val viewModel: MainViewModel by lazy {
+        val activity = requireNotNull(this.activity)
+        ViewModelProvider(
+            this,
+            MainViewModelFactory(activity.application)
+        )[MainViewModel::class.java]
+    }
     private var binding: FragmentMainBinding? = null
 
     override fun onCreateView(
@@ -34,12 +43,12 @@ class MainFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
-        binding?.asteroidRecycler?.adapter = AsteroidAdapter(AsteroidAdapter.OnClickListener{
+        binding?.asteroidRecycler?.adapter = AsteroidAdapter(AsteroidAdapter.OnClickListener {
             viewModel.displayAsteroidDetails(it)
-        })
+        }).apply { asteroidAdapter = this }
 
-        viewModel.goToAsteroidDetails.observe(viewLifecycleOwner){
-            if(it!=null){
+        viewModel.goToAsteroidDetails.observe(viewLifecycleOwner) {
+            if (it != null) {
                 findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
                 viewModel.displayAsteroidComplete()
             }
@@ -57,6 +66,16 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.updateAsteroidStatus(
+            when(item.itemId){
+                R.id.show_today_asteroids -> AsteroidStatus.DAY
+                R.id.show_week_asteroids -> AsteroidStatus.WEEK
+                else -> AsteroidStatus.ALL
+            }
+        )
+        viewModel.asteroids.observe(viewLifecycleOwner){
+            asteroidAdapter.submitList(it)
+        }
         return true
     }
 }

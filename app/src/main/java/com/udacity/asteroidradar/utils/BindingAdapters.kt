@@ -9,10 +9,25 @@ import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.data.Asteroid
 import com.udacity.asteroidradar.main.AsteroidAdapter
+import com.udacity.asteroidradar.model.AsteroidStatus
 import com.udacity.asteroidradar.model.PictureApiStatus
 
+//@BindingAdapter(value = ["asteroids", "asteroidsStatus"], requireAll = false)
+//fun bindRecyclerView(
+//    recyclerView: RecyclerView,
+//    asteroids: List<Asteroid>?,
+//    asteroidsStatus: AsteroidStatus
+//) {
+//    val adapter = recyclerView.adapter as AsteroidAdapter
+//    when (asteroidsStatus) {
+//        AsteroidStatus.DAY -> adapter.submitList(asteroids)
+//        AsteroidStatus.WEEK -> adapter.submitList(asteroids)
+//        else -> adapter.submitList(asteroids)
+//    }
+//}
+
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, asteroids: List<Asteroid>?){
+fun bindRecyclerView(recyclerView: RecyclerView, asteroids: List<Asteroid>?) {
     val adapter = recyclerView.adapter as AsteroidAdapter
     adapter.submitList(asteroids)
 }

@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.repo
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.api.NetWork
 import com.udacity.asteroidradar.api.asDatabaseModel
@@ -16,11 +17,6 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 class AsteroidRepo(private val database: AsteroidDatabase) {
-
-    val asteroids: LiveData<List<Asteroid>> =
-        Transformations.map(database.asteroidDao.getAsteroids()) {
-            it.asDomainModel()
-        }
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {

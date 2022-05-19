@@ -16,7 +16,7 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentDetailBinding.inflate(inflater)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val asteroid = DetailFragmentArgs.fromBundle(requireArguments()).selectedAsteroid
 
