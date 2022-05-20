@@ -8,23 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.data.Asteroid
+import com.udacity.asteroidradar.data.PictureOfDay
 import com.udacity.asteroidradar.main.AsteroidAdapter
 import com.udacity.asteroidradar.model.AsteroidStatus
 import com.udacity.asteroidradar.model.PictureApiStatus
 
-//@BindingAdapter(value = ["asteroids", "asteroidsStatus"], requireAll = false)
-//fun bindRecyclerView(
-//    recyclerView: RecyclerView,
-//    asteroids: List<Asteroid>?,
-//    asteroidsStatus: AsteroidStatus
-//) {
-//    val adapter = recyclerView.adapter as AsteroidAdapter
-//    when (asteroidsStatus) {
-//        AsteroidStatus.DAY -> adapter.submitList(asteroids)
-//        AsteroidStatus.WEEK -> adapter.submitList(asteroids)
-//        else -> adapter.submitList(asteroids)
-//    }
-//}
+@BindingAdapter("isHazardous")
+fun bindIsAsteroidHazardous(imageView: ImageView, isHazardous: Boolean){
+    if(isHazardous){
+        imageView.contentDescription = imageView.resources.getString(R.string.potentially_hazardous_asteroid_image)
+    } else {
+        imageView.contentDescription = imageView.resources.getString(R.string.not_hazardous_asteroid_image)
+    }
+}
+
+@BindingAdapter("pictureOfDayDC")
+fun bindPictureOfTheDayContentDesc(imageView: ImageView, pictureOfDay: PictureOfDay?){
+    pictureOfDay.let {
+        imageView.contentDescription = "Image of the day ${pictureOfDay?.title}"
+    }
+}
+
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, asteroids: List<Asteroid>?) {

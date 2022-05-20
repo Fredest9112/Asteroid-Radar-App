@@ -41,16 +41,20 @@ class MainFragment : Fragment() {
         binding?.apply {
             mainViewModel = viewModel
             lifecycleOwner = viewLifecycleOwner
+            asteroidRecycler.adapter = AsteroidAdapter(AsteroidAdapter.OnClickListener {
+                viewModel.displayAsteroidDetails(it)
+            }).apply { asteroidAdapter = this }
         }
 
-        binding?.asteroidRecycler?.adapter = AsteroidAdapter(AsteroidAdapter.OnClickListener {
-            viewModel.displayAsteroidDetails(it)
-        }).apply { asteroidAdapter = this }
-
-        viewModel.goToAsteroidDetails.observe(viewLifecycleOwner) {
-            if (it != null) {
-                findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
-                viewModel.displayAsteroidComplete()
+        viewModel.apply {
+            goToAsteroidDetails.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
+                    viewModel.displayAsteroidComplete()
+                }
+            }
+            asteroids.observe(viewLifecycleOwner){
+                asteroidAdapter.submitList(it)
             }
         }
     }
@@ -73,9 +77,6 @@ class MainFragment : Fragment() {
                 else -> AsteroidStatus.ALL
             }
         )
-        viewModel.asteroids.observe(viewLifecycleOwner){
-            asteroidAdapter.submitList(it)
-        }
         return true
     }
 }

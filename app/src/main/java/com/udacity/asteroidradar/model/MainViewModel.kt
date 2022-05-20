@@ -33,14 +33,25 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var _goToAsteroidDetails = MutableLiveData<Asteroid?>()
     val goToAsteroidDetails: LiveData<Asteroid?> = _goToAsteroidDetails
 
-    var asteroids: LiveData<List<Asteroid>> = Transformations.map(
-        asteroidDatabase.asteroidDao.getAsteroids()
-    ) {
-        it.asDomainModel()
+    private var _asteroidStatus = MutableLiveData<AsteroidStatus>()
+
+    private var _asteroids = Transformations.switchMap(_asteroidStatus) {
+        when (it) {
+            AsteroidStatus.DAY -> asteroidDatabase.asteroidDao.getTodayAsteroids(Date.currentTime)
+                .map { asteroids -> asteroids.asDomainModel() }
+            AsteroidStatus.WEEK -> asteroidDatabase.asteroidDao.getWeekAsteroids(
+                Date.sevenDaysAgo, Date.currentTime
+            )
+                .map { asteroids -> asteroids.asDomainModel() }
+            else -> asteroidDatabase.asteroidDao.getAsteroids()
+                .map { asteroids -> asteroids.asDomainModel() }
+        }
     }
+    val asteroids: LiveData<List<Asteroid>> = _asteroids
 
 
     init {
+        _asteroidStatus.value = AsteroidStatus.ALL
         _pictureStatus.value = PictureApiStatus.LOADING
         viewModelScope.launch {
             _picture.value = asteroidRepo.refreshPicture()
@@ -66,31 +77,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun updateAsteroidStatus(status: AsteroidStatus) {
-        when (status) {
-            AsteroidStatus.DAY -> {
-                asteroids = Transformations.map(
-                    asteroidDatabase.asteroidDao.getTodayAsteroids(Date.currentTime)
-                ) {
-                    it.asDomainModel()
-                }
-            }
-            AsteroidStatus.WEEK -> {
-                asteroids = Transformations.map(
-                    asteroidDatabase.asteroidDao.getWeekAsteroids(
-                        Date.sevenDaysAgo,
-                        Date.currentTime
-                    )
-                ) {
-                    it.asDomainModel()
-                }
-            }
-            else -> {
-                asteroids = Transformations.map(
-                    asteroidDatabase.asteroidDao.getAsteroids()
-                ) {
-                    it.asDomainModel()
-                }
-            }
-        }
+        _asteroidStatus.value = status
     }
 }
