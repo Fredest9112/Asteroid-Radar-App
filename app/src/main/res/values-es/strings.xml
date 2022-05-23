@@ -15,4 +15,5 @@
     <string name="not_hazardous_asteroid_image">Asteroide inofensivo</string>
     <string name="this_is_nasa_s_picture_of_day_showing_nothing_yet">Esta es la imagen diaria de la NASA, todavia sin mostrar</string>
     <string name="nasa_picture_of_day_content_description_format">Imagen del día de la Nasa: %s</string>
+    <string name="image_day">Imagen del dia</string>
 </resources>

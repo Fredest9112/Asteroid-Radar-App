@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.utils
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,7 +11,6 @@ import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.data.Asteroid
 import com.udacity.asteroidradar.data.PictureOfDay
 import com.udacity.asteroidradar.main.AsteroidAdapter
-import com.udacity.asteroidradar.model.AsteroidStatus
 import com.udacity.asteroidradar.model.PictureApiStatus
 
 @BindingAdapter("isHazardous")
@@ -25,7 +25,7 @@ fun bindIsAsteroidHazardous(imageView: ImageView, isHazardous: Boolean){
 @BindingAdapter("pictureOfDayDC")
 fun bindPictureOfTheDayContentDesc(imageView: ImageView, pictureOfDay: PictureOfDay?){
     pictureOfDay.let {
-        imageView.contentDescription = "Image of the day ${pictureOfDay?.title}"
+        imageView.contentDescription = "${imageView.resources.getString(R.string.image_day)} ${pictureOfDay?.title}"
     }
 }
 
