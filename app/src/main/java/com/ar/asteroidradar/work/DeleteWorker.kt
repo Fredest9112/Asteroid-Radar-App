@@ -7,20 +7,19 @@ import com.ar.asteroidradar.database.getAsteroidDatabase
 import com.ar.asteroidradar.repo.AsteroidRepo
 import retrofit2.HttpException
 
-class RefreshWorker(appContext: Context, params: WorkerParameters) :
-    CoroutineWorker(appContext, params) {
+class DeleteWorker(appContext: Context, params: WorkerParameters): CoroutineWorker(appContext, params) {
 
-    companion object {
-        const val WORK_REFRESH_ASTEROIDS = "RefreshAsteroidsWorker"
+    companion object{
+        const val WORK_DELETE_ASTEROIDS = "DeleteAsteroidsWorker"
     }
 
     override suspend fun doWork(): Result {
         val database = getAsteroidDatabase(applicationContext)
         val repository = AsteroidRepo(database)
-        return try{
-            repository.refreshAsteroids()
+        return try {
+            repository.deleteAsteroids()
             Result.success()
-        } catch(e: HttpException){
+        } catch (e: HttpException){
             Result.retry()
         }
     }

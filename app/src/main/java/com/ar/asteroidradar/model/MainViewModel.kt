@@ -39,7 +39,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             AsteroidStatus.DAY -> asteroidDatabase.asteroidDao.getTodayAsteroids(Date.currentTime)
                 .map { asteroids -> asteroids.asDomainModel() }
             AsteroidStatus.WEEK -> asteroidDatabase.asteroidDao.getWeekAsteroids(
-                Date.sevenDaysAgo, Date.currentTime
+                Date.oneWeekAgo, Date.currentTime
             )
                 .map { asteroids -> asteroids.asDomainModel() }
             else -> asteroidDatabase.asteroidDao.getAsteroids()

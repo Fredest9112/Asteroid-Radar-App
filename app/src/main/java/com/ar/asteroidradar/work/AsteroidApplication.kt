@@ -25,14 +25,24 @@ class AsteroidApplication: Application() {
             .setRequiresDeviceIdle(true)
             .build()
 
-        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshWorker>(1, TimeUnit.DAYS)
+        val refreshAsteroidsRequest = PeriodicWorkRequestBuilder<RefreshWorker>(1, TimeUnit.DAYS)
+            .setConstraints(constraints)
+            .build()
+
+        val deleteAsteroidsRequest = PeriodicWorkRequestBuilder<DeleteWorker>(14, TimeUnit.DAYS)
             .setConstraints(constraints)
             .build()
 
         WorkManager.getInstance().enqueueUniquePeriodicWork(
-            RefreshWorker.WORK_NAME,
+            RefreshWorker.WORK_REFRESH_ASTEROIDS,
             ExistingPeriodicWorkPolicy.KEEP,
-            repeatingRequest
+            refreshAsteroidsRequest
+        )
+
+        WorkManager.getInstance().enqueueUniquePeriodicWork(
+            DeleteWorker.WORK_DELETE_ASTEROIDS,
+            ExistingPeriodicWorkPolicy.KEEP,
+            deleteAsteroidsRequest
         )
     }
 

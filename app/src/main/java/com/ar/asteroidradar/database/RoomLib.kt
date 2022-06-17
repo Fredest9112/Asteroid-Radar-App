@@ -17,6 +17,9 @@ interface AsteroidDao {
 
     @Query("SELECT * FROM AsteroidDB WHERE closeApproachDate BETWEEN :startDate AND :endDate")
     fun getWeekAsteroids(startDate: String, endDate: String): LiveData<List<AsteroidDB>>
+
+    @Query("DELETE FROM AsteroidDB WHERE closeApproachDate BETWEEN :startDate AND :endDate")
+    fun deleteOldAsteroids(startDate: String, endDate: String)
 }
 
 @Database(entities = [AsteroidDB::class], version = 1, exportSchema = false)

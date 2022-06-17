@@ -18,13 +18,23 @@ class AsteroidRepo(private val database: AsteroidDatabase) {
         withContext(Dispatchers.IO) {
             try {
                 val response = NetWork.asteroidsData.getAsteroidsAsync(
-                    Date.currentTime, Date.sevenDaysAgo,
+                    Date.currentTime, Date.oneWeekAgo,
                     API_KEY
                 ).await()
                 val asteroidsList = parseAsteroidsJsonResult(JSONObject(response))
                 database.asteroidDao.insertAll(*asteroidsList.asDatabaseModel())
             } catch (e: Exception) {
                 Log.i("error on asteroids", "${e.printStackTrace()}")
+            }
+        }
+    }
+
+    suspend fun deleteAsteroids(){
+        withContext(Dispatchers.IO){
+            try {
+                database.asteroidDao.deleteOldAsteroids(Date.twoWeeksAgo, Date.oneWeekAgo)
+            } catch (e: Exception){
+                Log.i("error deleting asteroids","${e.printStackTrace()}")
             }
         }
     }
