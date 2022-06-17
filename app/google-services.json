@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "217046570838",
+    "project_id": "asteroid-app",
+    "storage_bucket": "asteroid-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217046570838:android:5b656e77b8378d331428f7",
+        "android_client_info": {
+          "package_name": "com.ar.asteroidradar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217046570838-jltjaal3nc333p2c8is7ah303bpi9548.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAURvt2lyJD65C9Bl0N6ok9xecnNlFTqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217046570838-jltjaal3nc333p2c8is7ah303bpi9548.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

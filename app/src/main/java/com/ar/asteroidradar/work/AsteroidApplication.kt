@@ -29,7 +29,7 @@ class AsteroidApplication: Application() {
             .setConstraints(constraints)
             .build()
 
-        val deleteAsteroidsRequest = PeriodicWorkRequestBuilder<DeleteWorker>(14, TimeUnit.DAYS)
+        val deleteAsteroidsRequest = PeriodicWorkRequestBuilder<DeleteWorker>(3, TimeUnit.DAYS)
             .setConstraints(constraints)
             .build()
 
