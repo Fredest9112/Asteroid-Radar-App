@@ -1,17 +1,16 @@
-package com.udacity.asteroidradar.utils
+package com.ar.asteroidradar.utils
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ar.asteroidradar.R
 import com.squareup.picasso.Picasso
-import com.udacity.asteroidradar.R
-import com.udacity.asteroidradar.data.Asteroid
-import com.udacity.asteroidradar.data.PictureOfDay
-import com.udacity.asteroidradar.main.AsteroidAdapter
-import com.udacity.asteroidradar.model.PictureApiStatus
+import com.ar.asteroidradar.data.Asteroid
+import com.ar.asteroidradar.data.PictureOfDay
+import com.ar.asteroidradar.main.AsteroidAdapter
+import com.ar.asteroidradar.model.PictureApiStatus
 
 @BindingAdapter("isHazardous")
 fun bindIsAsteroidHazardous(imageView: ImageView, isHazardous: Boolean){

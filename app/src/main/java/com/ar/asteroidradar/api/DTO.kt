@@ -1,7 +1,7 @@
-package com.udacity.asteroidradar.api
+package com.ar.asteroidradar.api
 
-import com.udacity.asteroidradar.data.Asteroid
-import com.udacity.asteroidradar.database.AsteroidDB
+import com.ar.asteroidradar.data.Asteroid
+import com.ar.asteroidradar.database.AsteroidDB
 
 fun ArrayList<Asteroid>.asDatabaseModel(): Array<AsteroidDB> {
     return map {

@@ -1,7 +1,7 @@
-package com.udacity.asteroidradar.api
+package com.ar.asteroidradar.api
 
-import com.udacity.asteroidradar.data.Asteroid
-import com.udacity.asteroidradar.data.Constants
+import com.ar.asteroidradar.data.Asteroid
+import com.ar.asteroidradar.data.Constants
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*

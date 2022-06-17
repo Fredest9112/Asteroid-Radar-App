@@ -1,14 +1,13 @@
-package com.udacity.asteroidradar.model
+package com.ar.asteroidradar.model
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
-import com.udacity.asteroidradar.data.Asteroid
-import com.udacity.asteroidradar.data.Date
-import com.udacity.asteroidradar.data.PictureOfDay
-import com.udacity.asteroidradar.database.asDomainModel
-import com.udacity.asteroidradar.database.getAsteroidDatabase
-import com.udacity.asteroidradar.repo.AsteroidRepo
+import com.ar.asteroidradar.data.Asteroid
+import com.ar.asteroidradar.data.Date
+import com.ar.asteroidradar.data.PictureOfDay
+import com.ar.asteroidradar.database.asDomainModel
+import com.ar.asteroidradar.database.getAsteroidDatabase
+import com.ar.asteroidradar.repo.AsteroidRepo
 import kotlinx.coroutines.launch
 
 enum class PictureApiStatus {

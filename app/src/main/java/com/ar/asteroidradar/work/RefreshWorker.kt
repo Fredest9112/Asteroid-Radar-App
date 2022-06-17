@@ -1,10 +1,10 @@
-package com.udacity.asteroidradar.work
+package com.ar.asteroidradar.work
 
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.udacity.asteroidradar.database.getAsteroidDatabase
-import com.udacity.asteroidradar.repo.AsteroidRepo
+import com.ar.asteroidradar.database.getAsteroidDatabase
+import com.ar.asteroidradar.repo.AsteroidRepo
 import retrofit2.HttpException
 
 class RefreshWorker(appContext: Context, params: WorkerParameters) :

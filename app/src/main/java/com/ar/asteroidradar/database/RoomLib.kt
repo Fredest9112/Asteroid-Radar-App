@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.database
+package com.ar.asteroidradar.database
 
 import android.content.Context
 import androidx.lifecycle.LiveData

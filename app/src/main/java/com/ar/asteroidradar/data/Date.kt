@@ -1,7 +1,7 @@
-package com.udacity.asteroidradar.data
+package com.ar.asteroidradar.data
 
-import com.udacity.asteroidradar.data.Constants.API_QUERY_DATE_FORMAT
-import com.udacity.asteroidradar.data.Constants.DEFAULT_END_DATE_DAYS
+import com.ar.asteroidradar.data.Constants.API_QUERY_DATE_FORMAT
+import com.ar.asteroidradar.data.Constants.DEFAULT_END_DATE_DAYS
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Date
