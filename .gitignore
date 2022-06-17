@@ -15,6 +15,9 @@
 # Java class files
 *.class
 
+#Keys
+Keys/
+
 # Generated files
 bin/
 gen/
