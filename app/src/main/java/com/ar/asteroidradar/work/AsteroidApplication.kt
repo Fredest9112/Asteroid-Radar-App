@@ -33,13 +33,13 @@ class AsteroidApplication: Application() {
             .setConstraints(constraints)
             .build()
 
-        WorkManager.getInstance().enqueueUniquePeriodicWork(
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
             RefreshWorker.WORK_REFRESH_ASTEROIDS,
             ExistingPeriodicWorkPolicy.KEEP,
             refreshAsteroidsRequest
         )
 
-        WorkManager.getInstance().enqueueUniquePeriodicWork(
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
             DeleteWorker.WORK_DELETE_ASTEROIDS,
             ExistingPeriodicWorkPolicy.KEEP,
             deleteAsteroidsRequest
