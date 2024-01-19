@@ -1,15 +1,11 @@
 package com.ar.asteroidradar.main
 
-import android.app.Fragment
-import android.os.Build.VERSION_CODES.R
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ar.asteroidradar.R
-import com.ar.asteroidradar.data.Date
 import com.ar.asteroidradar.databinding.FragmentMainBinding
 import com.ar.asteroidradar.model.AsteroidStatus
 import com.ar.asteroidradar.model.MainViewModel
