@@ -1,5 +1,7 @@
 package com.ar.asteroidradar.main
 
+import android.app.Fragment
+import android.os.Build.VERSION_CODES.R
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -38,8 +40,6 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.i("deletion dates","1week ago: ${Date.oneWeekAgo}, 2weeks ago: ${Date.twoWeeksAgo}")
 
         binding?.apply {
             mainViewModel = viewModel
