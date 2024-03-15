@@ -19,6 +19,7 @@ This kind of app is one of the most usual in the real world, what you will learn
 ### Dependencies
 
 //new dependencies
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.2")
@@ -75,7 +76,7 @@ This kind of app is one of the most usual in the real world, what you will learn
 
 ### Installation
 
-The application has been published on google play store in closed-beta testing, in order to stay up-to-date with changes and related updates from play store
+The application has been published on google play store in closed-beta testing, in order to stay up-to-date with changes and related updates from the play console
 
 ## Testing
 
