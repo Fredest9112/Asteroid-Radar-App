@@ -1,12 +1,12 @@
 package com.ar.asteroidradar.api
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.ar.asteroidradar.data.Constants.ASTEROIDS_DATA
 import com.ar.asteroidradar.data.Constants.BASE_URL
 import com.ar.asteroidradar.data.Constants.PICTURE_DAY
 import com.ar.asteroidradar.data.PictureOfDay
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
