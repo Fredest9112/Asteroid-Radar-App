@@ -26,12 +26,12 @@ class MainActivity : ComponentActivity() {
 @Preview (
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    name = "DefaultPreviewLight"
+    name = "DefaultPreviewDark"
 )
 @Preview (
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    name = "DefaultPreviewDark"
+    name = "DefaultPreviewLight"
 )
 @Composable
 fun AsteroidRadarAppPreview(){
