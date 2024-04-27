@@ -14,7 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AsteroidRadarApp(){
+fun AsteroidRadarApp(onFinishSplash: () -> Unit) {
+    onFinishSplash.invoke()
     Column(
         modifier = Modifier
             .fillMaxSize()

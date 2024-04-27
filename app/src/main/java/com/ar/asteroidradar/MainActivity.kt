@@ -4,19 +4,32 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
 
 class MainActivity : ComponentActivity() {
 
+    private var keepSplashOpened = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().setKeepOnScreenCondition {
+            keepSplashOpened
+        }
         setContent {
             AsteroidRadarAppTheme {
-                Surface {
-                    AsteroidRadarApp()
+                Scaffold (
+                    topBar = {}
+                ) {
+                    it
+                    AsteroidRadarApp(
+                        onFinishSplash = {
+                            keepSplashOpened = false
+                        }
+                    )
                 }
             }
         }
@@ -36,8 +49,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AsteroidRadarAppPreview(){
     AsteroidRadarAppTheme {
-        Surface {
-            AsteroidRadarApp()
+        Scaffold {
+            it
+            AsteroidRadarApp {
+            }
         }
     }
 }
