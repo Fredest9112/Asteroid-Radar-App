@@ -1,6 +1,19 @@
 <resources>
+    //App Name
     <string name="app_name" translatable="false">Asteroid Radar</string>
 
+    //Asteroid id key
+    <string name="asteroid_id_key" translatable="false">asteroidId</string>
+
+    //Welcome Screen - Onboarding
+    <string name="onboarding1_message">This app tracks asteroids that pass close to earth!</string>
+    <string name="onboarding2_message">There will be asteroids that are cool, and do not possess any threat to us</string>
+    <string name="onboarding3_message">However, there will be asteroids that could kill us all!</string>
+    <string name="onboarding1_title">Welcome!</string>
+    <string name="onboarding2_title">Nice asteroids!</string>
+    <string name="onboarding3_title">Naughty asteroids!</string>
+
+    //Home
     <string name="next_week_asteroids">View week asteroids</string>
     <string name="today_asteroids">View today asteroids</string>
     <string name="saved_asteroids">View saved asteroids</string>

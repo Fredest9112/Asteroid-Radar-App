@@ -1,15 +1,16 @@
 package com.ar.asteroidradar
 
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.compose.rememberNavController
+import com.ar.asteroidradar.navigation.SetupAsteroidRadarNavGraph
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private var keepSplashOpened = true
@@ -22,32 +23,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             AsteroidRadarAppTheme {
                 Surface {
-                    AsteroidRadarApp(
+                    SetupAsteroidRadarNavGraph(
+                        navHostController = rememberNavController(),
                         onFinishSplash = {
                             keepSplashOpened = false
                         }
                     )
                 }
-            }
-        }
-    }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    name = "DefaultPreviewDark"
-)
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    name = "DefaultPreviewLight"
-)
-@Composable
-fun AsteroidRadarAppPreview() {
-    AsteroidRadarAppTheme {
-        Surface {
-            AsteroidRadarApp {
             }
         }
     }

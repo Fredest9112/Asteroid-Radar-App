@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="onboarding1_message">Esta aplicacion rastrea asteroides que pasan cerca al planeta tierra!</string>
+    <string name="onboarding2_message">Hay asteroides que son amigables, y no poseen ninguna amenaza para nosotros</string>
+    <string name="onboarding3_message">Sin embargo, hay asteroides que podrian matarnos a todos!</string>
+    <string name="onboarding1_title">Hola!</string>
+    <string name="onboarding2_title">Asteroides Buenos!</string>
+    <string name="onboarding3_title">Asteroides Malvados!</string>
     <string name="next_week_asteroids">Ver asteroides de la semana</string>
     <string name="today_asteroids">Ver asteroides de hoy</string>
     <string name="saved_asteroids">Ver asteroides guardados</string>
