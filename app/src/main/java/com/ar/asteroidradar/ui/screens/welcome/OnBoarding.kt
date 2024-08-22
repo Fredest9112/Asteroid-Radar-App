@@ -1,4 +1,4 @@
-package com.ar.asteroidradar.model
+package com.ar.asteroidradar.ui.screens.welcome
 
 import com.ar.asteroidradar.R
 

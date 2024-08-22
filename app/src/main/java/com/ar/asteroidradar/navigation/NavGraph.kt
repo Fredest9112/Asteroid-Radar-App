@@ -10,7 +10,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.ar.asteroidradar.ui.screens.HomeScreen
+import com.ar.asteroidradar.ui.screens.home.HomeScreen
+import com.ar.asteroidradar.ui.screens.home.HomeScreenViewModel
 import com.ar.asteroidradar.ui.screens.welcome.WelcomeScreen
 import com.ar.asteroidradar.ui.screens.welcome.WelcomeViewModel
 import com.ar.asteroidradar.utils.Constants.ASTEROID_ID_KEY
@@ -18,10 +19,9 @@ import com.ar.asteroidradar.utils.Constants.ASTEROID_ID_KEY
 @Composable
 fun SetupAsteroidRadarNavGraph(
     navHostController: NavHostController,
-    onFinishSplash: () -> Unit
+    onFinishSplash: () -> Unit,
+    startDestination: String
 ) {
-    val welcomeViewModel: WelcomeViewModel = hiltViewModel()
-    val onBoardingCompleted by welcomeViewModel.onBoardingCompleted.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         onFinishSplash()
@@ -29,21 +29,22 @@ fun SetupAsteroidRadarNavGraph(
 
     NavHost(
         navController = navHostController,
-        startDestination = if (onBoardingCompleted) Screen.Home.route else Screen.Welcome.route
+        startDestination = startDestination
     ) {
         composable(route = Screen.Welcome.route) {
-            if (onBoardingCompleted) {
-                navHostController.popBackStack()
-                navHostController.navigate(Screen.Home.route)
-            } else {
-                WelcomeScreen(
-                    navHostController = navHostController,
-                    welcomeViewModel = welcomeViewModel
-                )
-            }
+            val welcomeViewModel: WelcomeViewModel = hiltViewModel()
+            WelcomeScreen(
+                onNavigateToHomeScreen = {
+                    navHostController.popBackStack()
+                    welcomeViewModel.saveOnBoardingState(complete = true)
+                    navHostController.navigate(Screen.Home.route)
+                }
+            )
         }
         composable(route = Screen.Home.route) {
-            HomeScreen()
+            val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
+            val pictureOfDay by homeScreenViewModel.pictureOfDay.collectAsState()
+            HomeScreen(pictureOfDay = pictureOfDay)
         }
         composable(
             route = Screen.AsteroidDetails.route,

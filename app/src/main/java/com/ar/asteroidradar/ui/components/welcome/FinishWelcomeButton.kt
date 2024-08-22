@@ -14,7 +14,7 @@ import com.ar.asteroidradar.utils.Constants.LAST_PAGE_HORIZONTAL_PAGER
 @Composable
 fun FinishWelcomeButton(
     modifier: Modifier = Modifier,
-    onClickNavigateToHome: () -> Unit,
+    onNavigateToHomeScreen: () -> Unit,
     currentPage: Int
 ){
     //val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -24,7 +24,7 @@ fun FinishWelcomeButton(
             .fillMaxWidth()
             .padding(start = 100.dp, end = 100.dp)
     ) {
-        Button(onClick = onClickNavigateToHome) {
+        Button(onClick = onNavigateToHomeScreen) {
             Text(text = "Let's Begin")
         }
     }
@@ -35,6 +35,6 @@ fun FinishWelcomeButton(
 fun FinishWelcomeButtonPreview(){
     FinishWelcomeButton(
         currentPage = 2,
-        onClickNavigateToHome = {}
+        onNavigateToHomeScreen = {}
     )
 }

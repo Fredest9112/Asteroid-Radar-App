@@ -14,16 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WelcomeViewModel @Inject constructor(private val dataStoreRepo: IDataStoreRepo): ViewModel() {
-
-    private var _onBoardingCompleted = MutableStateFlow(false)
-    val onBoardingCompleted: StateFlow<Boolean> = _onBoardingCompleted
-
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            _onBoardingCompleted.value = dataStoreRepo.readOnBoardingState().stateIn(viewModelScope).value
-        }
-    }
-
     fun saveOnBoardingState(complete: Boolean){
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepo.saveOnBoardingState(completed = complete)

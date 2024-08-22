@@ -12,11 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.ar.asteroidradar.model.OnBoarding
-import com.ar.asteroidradar.navigation.Screen
 import com.ar.asteroidradar.ui.components.welcome.CurrentWelcomePage
 import com.ar.asteroidradar.ui.components.welcome.FinishWelcomeButton
 import com.ar.asteroidradar.ui.components.welcome.HorizontalPagerIndicator
@@ -25,8 +20,7 @@ import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WelcomeScreen(
-    navHostController: NavHostController,
-    welcomeViewModel: WelcomeViewModel
+    onNavigateToHomeScreen: () -> Unit
 ) {
     val pages = listOf(
         OnBoarding.FirstScreen,
@@ -54,11 +48,7 @@ fun WelcomeScreen(
         )
 
         FinishWelcomeButton(
-            onClickNavigateToHome = {
-                navHostController.popBackStack()
-                welcomeViewModel.saveOnBoardingState(complete = true)
-                navHostController.navigate(Screen.Home.route)
-            },
+            onNavigateToHomeScreen = onNavigateToHomeScreen,
             currentPage = pagerState.currentPage
         )
     }
@@ -76,14 +66,10 @@ fun WelcomeScreen(
 )
 @Composable
 fun WelcomeScreenPreview() {
-    val navController = rememberNavController()
-
-    val welcomeViewModel: WelcomeViewModel = hiltViewModel()
     AsteroidRadarAppTheme {
         Surface {
             WelcomeScreen(
-                navHostController = navController,
-                welcomeViewModel = welcomeViewModel
+                onNavigateToHomeScreen = {}
             )
         }
     }
