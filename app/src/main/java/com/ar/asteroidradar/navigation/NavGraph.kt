@@ -1,7 +1,6 @@
 package com.ar.asteroidradar.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,25 +11,40 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.ar.asteroidradar.ui.screens.home.HomeScreen
 import com.ar.asteroidradar.ui.screens.home.HomeScreenViewModel
+import com.ar.asteroidradar.ui.screens.splash.SplashScreen
 import com.ar.asteroidradar.ui.screens.welcome.WelcomeScreen
 import com.ar.asteroidradar.ui.screens.welcome.WelcomeViewModel
 import com.ar.asteroidradar.utils.Constants.ASTEROID_ID_KEY
+import com.ar.asteroidradar.utils.OnBoardingState
 
 @Composable
 fun SetupAsteroidRadarNavGraph(
     navHostController: NavHostController,
-    onFinishSplash: () -> Unit,
-    startDestination: String
+    onFinishSplash: () -> Unit
 ) {
-
-    LaunchedEffect(key1 = Unit) {
-        onFinishSplash()
+    val navigationViewModel: NavigationViewModel = hiltViewModel()
+    val onBoardingState by navigationViewModel.onBoardingState.collectAsState()
+    val startDestination = when (onBoardingState) {
+        OnBoardingState.LOADING -> {
+            Screen.Splash.route
+        }
+        OnBoardingState.COMPLETED -> {
+            onFinishSplash()
+            Screen.Home.route
+        }
+        OnBoardingState.NOT_COMPLETED -> {
+            onFinishSplash()
+            Screen.Welcome.route
+        }
     }
 
     NavHost(
         navController = navHostController,
         startDestination = startDestination
     ) {
+        composable(route = Screen.Splash.route) {
+            SplashScreen()
+        }
         composable(route = Screen.Welcome.route) {
             val welcomeViewModel: WelcomeViewModel = hiltViewModel()
             WelcomeScreen(

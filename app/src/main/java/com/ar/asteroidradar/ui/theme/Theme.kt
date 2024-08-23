@@ -86,10 +86,10 @@ fun AsteroidRadarAppTheme(
 ) {
 
     val colors = when {
-//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-//            val context = LocalContext.current
-//            if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-//        }
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
         useDarkTheme -> DarkColors
         else -> LightColors
     }
