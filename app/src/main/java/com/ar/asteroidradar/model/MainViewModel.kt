@@ -34,7 +34,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private var _asteroidStatus = MutableLiveData<AsteroidStatus>()
 
-    private var _asteroids = Transformations.switchMap(_asteroidStatus) {
+    private var _asteroids = _asteroidStatus.switchMap {
         when (it) {
             AsteroidStatus.DAY -> asteroidDatabase.asteroidDao.getTodayAsteroids(Date.currentTime)
                 .map { asteroids -> asteroids.asDomainModel() }

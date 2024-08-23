@@ -21,7 +21,6 @@ class AsteroidApplication: Application() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.UNMETERED)
             .setRequiresBatteryNotLow(true)
-            .setRequiresCharging(true)
             .setRequiresDeviceIdle(true)
             .build()
 

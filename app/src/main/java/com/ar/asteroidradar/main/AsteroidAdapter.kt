@@ -39,12 +39,9 @@ class AsteroidAdapter(private val onClickListener: OnClickListener):
         override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
             return oldItem.id == newItem.id
         }
-
     }
 
     class OnClickListener(val clickListener: (asteroid: Asteroid) -> Unit) {
         fun onClick(asteroid: Asteroid) = clickListener(asteroid)
     }
 }
-
-

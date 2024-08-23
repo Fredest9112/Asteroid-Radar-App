@@ -2,7 +2,10 @@ package com.ar.asteroidradar.main
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ar.asteroidradar.R
@@ -30,7 +33,23 @@ class MainFragment : Fragment() {
     ): View {
         val fragmentBinding = FragmentMainBinding.inflate(inflater, container, false)
         binding = fragmentBinding
-        setHasOptionsMenu(true)
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.main_overflow_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                viewModel.updateAsteroidStatus(
+                    when(menuItem.itemId){
+                        R.id.show_today_asteroids -> AsteroidStatus.DAY
+                        R.id.show_week_asteroids -> AsteroidStatus.WEEK
+                        else -> AsteroidStatus.ALL
+                    }
+                )
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
         return fragmentBinding.root
     }
 
@@ -61,21 +80,5 @@ class MainFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         binding = null
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_overflow_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        viewModel.updateAsteroidStatus(
-            when(item.itemId){
-                R.id.show_today_asteroids -> AsteroidStatus.DAY
-                R.id.show_week_asteroids -> AsteroidStatus.WEEK
-                else -> AsteroidStatus.ALL
-            }
-        )
-        return true
     }
 }
