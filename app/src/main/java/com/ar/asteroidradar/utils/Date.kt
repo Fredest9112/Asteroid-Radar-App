@@ -1,8 +1,8 @@
-package com.ar.asteroidradar.data
+package com.ar.asteroidradar.utils
 
-import com.ar.asteroidradar.data.Constants.API_QUERY_DATE_FORMAT
-import com.ar.asteroidradar.data.Constants.DEFAULT_DELETE_DAYS
-import com.ar.asteroidradar.data.Constants.DEFAULT_END_DATE_DAYS
+import com.ar.asteroidradar.utils.Constants.API_QUERY_DATE_FORMAT
+import com.ar.asteroidradar.utils.Constants.DEFAULT_DELETE_DAYS
+import com.ar.asteroidradar.utils.Constants.DEFAULT_END_DATE_DAYS
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Date

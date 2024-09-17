@@ -1,4 +1,4 @@
-package com.ar.asteroidradar.data
+package com.ar.asteroidradar.data.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

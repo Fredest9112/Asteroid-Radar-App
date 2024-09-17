@@ -1,11 +1,12 @@
-package com.ar.asteroidradar.api
+package com.ar.asteroidradar.data.api
 
-import com.ar.asteroidradar.data.Asteroid
-import com.ar.asteroidradar.data.Constants
+import com.ar.asteroidradar.data.models.Asteroid
+import com.ar.asteroidradar.utils.Constants.API_QUERY_DATE_FORMAT
+import com.ar.asteroidradar.utils.Constants.DEFAULT_END_DATE_DAYS
 import org.json.JSONObject
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Calendar
+import java.util.Locale
 
 fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")
@@ -48,9 +49,9 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 
     val calendar = Calendar.getInstance()
-    for (i in 0..Constants.DEFAULT_END_DATE_DAYS) {
+    for (i in 0..DEFAULT_END_DATE_DAYS) {
         val currentTime = calendar.time
-        val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+        val dateFormat = SimpleDateFormat(API_QUERY_DATE_FORMAT, Locale.getDefault())
         formattedDateList.add(dateFormat.format(currentTime))
         calendar.add(Calendar.DAY_OF_YEAR, 1)
     }

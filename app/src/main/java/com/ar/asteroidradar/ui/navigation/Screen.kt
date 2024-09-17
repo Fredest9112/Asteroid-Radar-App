@@ -1,4 +1,4 @@
-package com.ar.asteroidradar.navigation
+package com.ar.asteroidradar.ui.navigation
 
 sealed class Screen(val route: String = ""){
     object Splash: Screen(route = "splash_screen")

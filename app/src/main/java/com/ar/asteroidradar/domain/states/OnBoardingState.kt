@@ -1,4 +1,4 @@
-package com.ar.asteroidradar.utils
+package com.ar.asteroidradar.domain.states
 
 enum class OnBoardingState {
     LOADING,

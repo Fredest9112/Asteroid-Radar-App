@@ -1,8 +1,10 @@
-package com.ar.asteroidradar.navigation
+package com.ar.asteroidradar.ui.navigation
 
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -15,7 +17,7 @@ import com.ar.asteroidradar.ui.screens.splash.SplashScreen
 import com.ar.asteroidradar.ui.screens.welcome.WelcomeScreen
 import com.ar.asteroidradar.ui.screens.welcome.WelcomeViewModel
 import com.ar.asteroidradar.utils.Constants.ASTEROID_ID_KEY
-import com.ar.asteroidradar.utils.OnBoardingState
+import com.ar.asteroidradar.domain.states.OnBoardingState
 
 @Composable
 fun SetupAsteroidRadarNavGraph(
@@ -24,18 +26,13 @@ fun SetupAsteroidRadarNavGraph(
 ) {
     val navigationViewModel: NavigationViewModel = hiltViewModel()
     val onBoardingState by navigationViewModel.onBoardingState.collectAsState()
-    val startDestination = when (onBoardingState) {
-        OnBoardingState.LOADING -> {
-            Screen.Splash.route
-        }
-        OnBoardingState.COMPLETED -> {
-            onFinishSplash()
-            Screen.Home.route
-        }
-        OnBoardingState.NOT_COMPLETED -> {
-            onFinishSplash()
-            Screen.Welcome.route
-        }
+    val startDestination by navigationViewModel.startDestination.collectAsState()
+    val shouldShowError by navigationViewModel.shouldShowError.collectAsState()
+    if (onBoardingState != OnBoardingState.LOADING) {
+        onFinishSplash()
+    }
+    if (shouldShowError.first) {
+        Toast.makeText(LocalContext.current, shouldShowError.second, Toast.LENGTH_SHORT).show()
     }
 
     NavHost(

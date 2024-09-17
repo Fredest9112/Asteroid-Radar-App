@@ -1,4 +1,4 @@
-package com.ar.asteroidradar.database
+package com.ar.asteroidradar.data.database
 
 import android.content.Context
 import androidx.lifecycle.LiveData

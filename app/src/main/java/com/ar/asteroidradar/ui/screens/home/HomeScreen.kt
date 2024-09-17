@@ -14,10 +14,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ar.asteroidradar.data.Constants.PICTURE_OF_DAY_MOCK
-import com.ar.asteroidradar.data.PictureOfDay
+import com.ar.asteroidradar.data.models.PictureOfDayRemote
+import com.ar.asteroidradar.domain.entities.PictureOfDay
 import com.ar.asteroidradar.ui.components.home.AsteroidDailyImage
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
+import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 
 @Composable
 fun HomeScreen(pictureOfDay: PictureOfDay) {

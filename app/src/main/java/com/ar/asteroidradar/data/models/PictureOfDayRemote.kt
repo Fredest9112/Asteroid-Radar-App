@@ -1,8 +1,8 @@
-package com.ar.asteroidradar.data
+package com.ar.asteroidradar.data.models
 
 import com.squareup.moshi.Json
 
-data class PictureOfDay(
+data class PictureOfDayRemote(
     val copyright: String,
     val date: String,
     val explanation: String,

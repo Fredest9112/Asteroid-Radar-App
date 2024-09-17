@@ -2,7 +2,7 @@ package com.ar.asteroidradar.ui.screens.welcome
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ar.asteroidradar.repo.IDataStoreRepo
+import com.ar.asteroidradar.domain.repo.IDataStoreRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

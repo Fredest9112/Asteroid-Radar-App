@@ -1,11 +1,11 @@
-package com.ar.asteroidradar.api
+package com.ar.asteroidradar.domain.entities
 
-import com.ar.asteroidradar.data.Asteroid
-import com.ar.asteroidradar.database.AsteroidDB
+import com.ar.asteroidradar.data.database.AsteroidDB
+import com.ar.asteroidradar.data.models.Asteroid
 
-fun ArrayList<Asteroid>.asDatabaseModel(): Array<AsteroidDB> {
+fun List<AsteroidDB>.asDomainEntity(): List<Asteroid> {
     return map {
-        AsteroidDB(
+        Asteroid(
             id = it.id,
             codename = it.codename,
             closeApproachDate = it.closeApproachDate,
@@ -15,5 +15,5 @@ fun ArrayList<Asteroid>.asDatabaseModel(): Array<AsteroidDB> {
             distanceFromEarth = it.distanceFromEarth,
             isPotentiallyHazardous = it.isPotentiallyHazardous
         )
-    }.toTypedArray()
+    }
 }

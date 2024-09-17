@@ -1,8 +1,8 @@
 package com.ar.asteroidradar.di
 
 import android.content.Context
-import com.ar.asteroidradar.repo.IDataStoreRepo
-import com.ar.asteroidradar.repo.impl.DataStoreRepo
+import com.ar.asteroidradar.domain.repo.IDataStoreRepo
+import com.ar.asteroidradar.data.repoImpl.DataStoreRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

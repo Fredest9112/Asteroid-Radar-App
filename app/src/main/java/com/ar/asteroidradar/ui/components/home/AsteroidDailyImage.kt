@@ -19,9 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.ar.asteroidradar.data.Constants.PICTURE_OF_DAY_MOCK
-import com.ar.asteroidradar.data.PictureOfDay
+import com.ar.asteroidradar.domain.entities.PictureOfDay
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
+import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 
 @Composable
 fun AsteroidDailyImage(

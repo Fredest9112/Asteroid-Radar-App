@@ -1,11 +1,11 @@
-package com.ar.asteroidradar.api
+package com.ar.asteroidradar.data.api
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.ar.asteroidradar.data.Constants.ASTEROIDS_DATA
-import com.ar.asteroidradar.data.Constants.BASE_URL
-import com.ar.asteroidradar.data.Constants.PICTURE_DAY
-import com.ar.asteroidradar.data.PictureOfDay
+import com.ar.asteroidradar.data.models.PictureOfDayRemote
+import com.ar.asteroidradar.utils.Constants.ASTEROIDS_DATA
+import com.ar.asteroidradar.utils.Constants.BASE_URL
+import com.ar.asteroidradar.utils.Constants.PICTURE_DAY
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 
 interface AsteroidService {
     @GET(PICTURE_DAY)
-    fun getPictureOfDayAsync(): Deferred<Response<PictureOfDay>>
+    fun getPictureOfDayAsync(): Deferred<Response<PictureOfDayRemote>>
 
     @GET(ASTEROIDS_DATA)
     fun getAsteroidsAsync(

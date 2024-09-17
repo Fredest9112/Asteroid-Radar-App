@@ -1,15 +1,15 @@
-package com.ar.asteroidradar.repo.impl
+package com.ar.asteroidradar.data.repoImpl
 
 import android.util.Log
-import com.ar.asteroidradar.api.NetWork
-import com.ar.asteroidradar.api.asDatabaseModel
-import com.ar.asteroidradar.api.parseAsteroidsJsonResult
-import com.ar.asteroidradar.data.Constants.API_KEY
-import com.ar.asteroidradar.data.Constants.PICTURE_OF_DAY_MOCK
-import com.ar.asteroidradar.data.Date
-import com.ar.asteroidradar.data.PictureOfDay
-import com.ar.asteroidradar.database.AsteroidDatabase
-import com.ar.asteroidradar.repo.IAsteroidRepo
+import com.ar.asteroidradar.data.api.NetWork
+import com.ar.asteroidradar.data.models.asDatabaseModel
+import com.ar.asteroidradar.data.api.parseAsteroidsJsonResult
+import com.ar.asteroidradar.utils.Date
+import com.ar.asteroidradar.data.models.PictureOfDayRemote
+import com.ar.asteroidradar.data.database.AsteroidDatabase
+import com.ar.asteroidradar.domain.repo.IAsteroidRepo
+import com.ar.asteroidradar.utils.Constants.API_KEY
+import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_REMOTE_MOCK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -41,8 +41,8 @@ class AsteroidRepo(private val database: AsteroidDatabase): IAsteroidRepo {
         }
     }
 
-    override suspend fun refreshPicture(): PictureOfDay {
-        var pictureOfDay = PICTURE_OF_DAY_MOCK
+    override suspend fun refreshPicture(): PictureOfDayRemote {
+        var pictureOfDay = PICTURE_OF_DAY_REMOTE_MOCK
         withContext(Dispatchers.IO) {
             try {
                 val response = NetWork.asteroidsData.getPictureOfDayAsync().await()

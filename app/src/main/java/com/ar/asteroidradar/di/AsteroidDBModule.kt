@@ -2,7 +2,7 @@ package com.ar.asteroidradar.di
 
 import android.content.Context
 import androidx.room.Room
-import com.ar.asteroidradar.database.AsteroidDatabase
+import com.ar.asteroidradar.data.database.AsteroidDatabase
 import com.ar.asteroidradar.utils.Constants.ASTEROID_DB_NAME
 import dagger.Module
 import dagger.Provides

@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.Surface
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
-import com.ar.asteroidradar.navigation.SetupAsteroidRadarNavGraph
+import com.ar.asteroidradar.ui.navigation.SetupAsteroidRadarNavGraph
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
