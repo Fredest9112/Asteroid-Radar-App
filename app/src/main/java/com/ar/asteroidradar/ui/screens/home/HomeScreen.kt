@@ -14,14 +14,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ar.asteroidradar.data.models.PictureOfDayRemote
 import com.ar.asteroidradar.domain.entities.PictureOfDay
+import com.ar.asteroidradar.domain.states.PictureState
 import com.ar.asteroidradar.ui.components.home.AsteroidDailyImage
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
 import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 
 @Composable
-fun HomeScreen(pictureOfDay: PictureOfDay) {
+fun HomeScreen(pictureOfDay: PictureOfDay, pictureState: PictureState) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
@@ -34,7 +34,10 @@ fun HomeScreen(pictureOfDay: PictureOfDay) {
             textAlign = TextAlign.Center,
             fontSize = 30.sp,
         )
-        AsteroidDailyImage(pictureOfDay = pictureOfDay)
+        AsteroidDailyImage(
+            pictureOfDay = pictureOfDay,
+            pictureState = pictureState
+        )
     }
 }
 
@@ -53,7 +56,8 @@ fun HomeScreenPreview(){
     AsteroidRadarAppTheme {
         Surface {
             HomeScreen(
-                pictureOfDay = PICTURE_OF_DAY_MOCK
+                pictureOfDay = PICTURE_OF_DAY_MOCK,
+                pictureState = PictureState.COMPLETED
             )
         }
     }

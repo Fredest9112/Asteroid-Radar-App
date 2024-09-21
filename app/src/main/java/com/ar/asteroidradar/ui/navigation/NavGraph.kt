@@ -55,7 +55,11 @@ fun SetupAsteroidRadarNavGraph(
         composable(route = Screen.Home.route) {
             val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
             val pictureOfDay by homeScreenViewModel.pictureOfDay.collectAsState()
-            HomeScreen(pictureOfDay = pictureOfDay)
+            val pictureState by homeScreenViewModel.pictureState.collectAsState()
+            HomeScreen(
+                pictureOfDay = pictureOfDay,
+                pictureState = pictureState
+            )
         }
         composable(
             route = Screen.AsteroidDetails.route,

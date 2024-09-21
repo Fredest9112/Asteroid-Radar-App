@@ -6,7 +6,8 @@ data class PictureOfDay(
     val url: String,
     val copyright: String,
     val date: String,
-    val explanation: String
+    val explanation: String,
+    val title: String
 )
 
 fun PictureOfDayRemote.asDomainEntity(): PictureOfDay {
@@ -14,6 +15,7 @@ fun PictureOfDayRemote.asDomainEntity(): PictureOfDay {
         url = url,
         copyright = copyright,
         date = date,
-        explanation = explanation
+        explanation = explanation,
+        title = title
     )
 }

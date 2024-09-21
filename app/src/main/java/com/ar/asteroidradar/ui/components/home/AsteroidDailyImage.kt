@@ -1,64 +1,153 @@
 package com.ar.asteroidradar.ui.components.home
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.ar.asteroidradar.R
 import com.ar.asteroidradar.domain.entities.PictureOfDay
+import com.ar.asteroidradar.domain.states.PictureState
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
 import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 
 @Composable
 fun AsteroidDailyImage(
-    pictureOfDay: PictureOfDay
-){
-    Column(
-        verticalArrangement = Arrangement.Top
+    pictureOfDay: PictureOfDay,
+    pictureState: PictureState
+) {
+    Box(
+        modifier = Modifier
+            .padding(all = 10.dp)
+            .border(
+                width = 3.dp,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                shape = RoundedCornerShape(5),
+            )
+            .fillMaxWidth()
+            .height(220.dp)
+            .clip(RoundedCornerShape(10.dp))
     ) {
-        Text(
-            text = "Image of the day",
-            modifier = Modifier.padding(all = 8.dp)
-        )
-        Box {
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(220.dp),
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(data = pictureOfDay.url)
-                    .build(),
-                contentDescription = "Picture of the day",
-                contentScale = ContentScale.Crop
-            )
-            Text(
-                text = pictureOfDay.copyright,
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                modifier = Modifier
-                    .padding(all = 8.dp)
-                    .align(Alignment.BottomStart)
-            )
-            Text(
-                text = pictureOfDay.date,
-                fontSize = MaterialTheme.typography.titleSmall.fontSize,
-                modifier = Modifier
-                    .padding(all = 8.dp)
-                    .align(Alignment.TopEnd)
-            )
+        when (pictureState) {
+            PictureState.COMPLETED -> {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(data = pictureOfDay.url)
+                        .build(),
+                    contentDescription = "Picture of the day",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(all = 8.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Image of the day:",
+                            fontSize = MaterialTheme.typography.titleLarge.fontSize
+                        )
+                        Text(
+                            text = pictureOfDay.date,
+                            fontSize = MaterialTheme.typography.titleSmall.fontSize
+                        )
+                    }
+                    Text(
+                        text = pictureOfDay.title,
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = pictureOfDay.copyright,
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                    )
+                }
+            }
+
+            PictureState.LOADING -> {
+                Column(
+                    modifier = Modifier
+                        .padding(all = 10.dp)
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(50.dp)
+                    )
+                }
+            }
+
+            PictureState.ERROR -> {
+                Image(
+                    painter = painterResource(id = R.drawable.picture_error),
+                    contentDescription = "Picture of the day",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(all = 8.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Image of the day:",
+                            fontSize = MaterialTheme.typography.titleLarge.fontSize
+                        )
+                        Text(
+                            text = pictureOfDay.date,
+                            fontSize = MaterialTheme.typography.titleSmall.fontSize
+                        )
+                    }
+                    Text(
+                        text = pictureOfDay.title,
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = pictureOfDay.copyright,
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                    )
+                }
+            }
         }
     }
 }
@@ -74,11 +163,12 @@ fun AsteroidDailyImage(
     name = "DefaultPreviewLight"
 )
 @Composable
-fun HomeScreenPreview(){
+fun HomeScreenPreview() {
     AsteroidRadarAppTheme {
         Surface {
             AsteroidDailyImage(
-                pictureOfDay = PICTURE_OF_DAY_MOCK
+                pictureOfDay = PICTURE_OF_DAY_MOCK,
+                pictureState = PictureState.ERROR
             )
         }
     }
