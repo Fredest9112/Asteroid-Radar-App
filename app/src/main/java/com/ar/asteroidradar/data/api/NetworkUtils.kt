@@ -1,6 +1,6 @@
 package com.ar.asteroidradar.data.api
 
-import com.ar.asteroidradar.data.models.Asteroid
+import com.ar.asteroidradar.data.models.AsteroidRemote
 import com.ar.asteroidradar.utils.Constants.API_QUERY_DATE_FORMAT
 import com.ar.asteroidradar.utils.Constants.DEFAULT_END_DATE_DAYS
 import org.json.JSONObject
@@ -8,10 +8,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
+fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<AsteroidRemote> {
     val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")
 
-    val asteroidList = ArrayList<Asteroid>()
+    val asteroidRemoteList = ArrayList<AsteroidRemote>()
 
     val nextSevenDaysFormattedDates = getNextSevenDaysFormattedDates()
     for (formattedDate in nextSevenDaysFormattedDates) {
@@ -34,15 +34,15 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
             val isPotentiallyHazardous = asteroidJson
                 .getBoolean("is_potentially_hazardous_asteroid")
 
-            val asteroid = Asteroid(
+            val asteroidRemote = AsteroidRemote(
                 id, codename, formattedDate, absoluteMagnitude,
                 estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous
             )
-            asteroidList.add(asteroid)
+            asteroidRemoteList.add(asteroidRemote)
         }
     }
 
-    return asteroidList
+    return asteroidRemoteList
 }
 
 private fun getNextSevenDaysFormattedDates(): ArrayList<String> {

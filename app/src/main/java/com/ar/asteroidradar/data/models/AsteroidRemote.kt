@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Asteroid(
+data class AsteroidRemote(
     val id: Long,
     val codename: String,
     val closeApproachDate: String,

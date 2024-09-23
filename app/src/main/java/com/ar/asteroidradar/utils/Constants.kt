@@ -1,5 +1,6 @@
 package com.ar.asteroidradar.utils
 
+import com.ar.asteroidradar.data.models.AsteroidRemote
 import com.ar.asteroidradar.data.models.PictureOfDayRemote
 import com.ar.asteroidradar.domain.entities.PictureOfDay
 
@@ -34,5 +35,48 @@ object Constants {
         mediaType = "image",
         title = "?????????",
         url = ""
+    )
+    val ASTEROID_MOCK = AsteroidRemote(
+        id = 12345L,
+        codename = "codename",
+        closeApproachDate = "approachDate",
+        absoluteMagnitude = 0.0,
+        estimatedDiameter = 0.0,
+        relativeVelocity = 0.0,
+        distanceFromEarth = 0.0,
+        isPotentiallyHazardous = false
+    )
+
+    val ASTEROIDS_MOCK = listOf(
+        AsteroidRemote(
+            id = 12345L,
+            codename = "codename",
+            closeApproachDate = "approachDate",
+            absoluteMagnitude = 0.0,
+            estimatedDiameter = 0.0,
+            relativeVelocity = 0.0,
+            distanceFromEarth = 0.0,
+            isPotentiallyHazardous = false
+        ),
+        AsteroidRemote(
+            id = 67890L,
+            codename = "codename",
+            closeApproachDate = "approachDate",
+            absoluteMagnitude = 0.0,
+            estimatedDiameter = 0.0,
+            relativeVelocity = 0.0,
+            distanceFromEarth = 0.0,
+            isPotentiallyHazardous = false
+        ),
+        AsteroidRemote(
+            id = 36598L,
+            codename = "codename",
+            closeApproachDate = "approachDate",
+            absoluteMagnitude = 0.0,
+            estimatedDiameter = 0.0,
+            relativeVelocity = 0.0,
+            distanceFromEarth = 0.0,
+            isPotentiallyHazardous = false
+        )
     )
 }

@@ -2,7 +2,6 @@ package com.ar.asteroidradar.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ar.asteroidradar.data.models.Asteroid
 
 @Entity
 data class AsteroidDB(

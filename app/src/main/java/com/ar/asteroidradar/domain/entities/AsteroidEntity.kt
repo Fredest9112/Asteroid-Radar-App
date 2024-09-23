@@ -1,11 +1,11 @@
 package com.ar.asteroidradar.domain.entities
 
 import com.ar.asteroidradar.data.database.AsteroidDB
-import com.ar.asteroidradar.data.models.Asteroid
+import com.ar.asteroidradar.data.models.AsteroidRemote
 
-fun List<AsteroidDB>.asDomainEntity(): List<Asteroid> {
+fun List<AsteroidDB>.asDomainEntity(): List<AsteroidRemote> {
     return map {
-        Asteroid(
+        AsteroidRemote(
             id = it.id,
             codename = it.codename,
             closeApproachDate = it.closeApproachDate,

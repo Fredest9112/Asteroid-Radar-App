@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +19,9 @@ import androidx.compose.ui.unit.sp
 import com.ar.asteroidradar.domain.entities.PictureOfDay
 import com.ar.asteroidradar.domain.states.PictureState
 import com.ar.asteroidradar.ui.components.home.AsteroidDailyImage
+import com.ar.asteroidradar.ui.components.home.AsteroidHolder
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
+import com.ar.asteroidradar.utils.Constants.ASTEROIDS_MOCK
 import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 
 @Composable
@@ -38,6 +42,14 @@ fun HomeScreen(pictureOfDay: PictureOfDay, pictureState: PictureState) {
             pictureOfDay = pictureOfDay,
             pictureState = pictureState
         )
+        LazyColumn {
+            items(
+                items = ASTEROIDS_MOCK,
+                key = { it.id }
+            ) {
+                AsteroidHolder(asteroid = it)
+            }
+        }
     }
 }
 

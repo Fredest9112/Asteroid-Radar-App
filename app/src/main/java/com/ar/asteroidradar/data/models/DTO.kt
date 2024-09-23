@@ -2,7 +2,7 @@ package com.ar.asteroidradar.data.models
 
 import com.ar.asteroidradar.data.database.AsteroidDB
 
-fun ArrayList<Asteroid>.asDatabaseModel(): Array<AsteroidDB> {
+fun ArrayList<AsteroidRemote>.asDatabaseModel(): Array<AsteroidDB> {
     return map {
         AsteroidDB(
             id = it.id,
