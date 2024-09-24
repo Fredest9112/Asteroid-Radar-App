@@ -1,6 +1,7 @@
 package com.ar.asteroidradar.domain.entities
 
 import com.ar.asteroidradar.data.models.PictureOfDayRemote
+import com.ar.asteroidradar.utils.normalize
 
 data class PictureOfDay(
     val url: String,
@@ -13,9 +14,9 @@ data class PictureOfDay(
 fun PictureOfDayRemote.asDomainEntity(): PictureOfDay {
     return PictureOfDay(
         url = url,
-        copyright = copyright,
+        copyright = copyright.normalize(),
         date = date,
-        explanation = explanation,
-        title = title
+        explanation = explanation.normalize(),
+        title = title.normalize()
     )
 }

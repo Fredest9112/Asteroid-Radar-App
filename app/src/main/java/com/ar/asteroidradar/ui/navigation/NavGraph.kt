@@ -27,12 +27,12 @@ fun SetupAsteroidRadarNavGraph(
     val navigationViewModel: NavigationViewModel = hiltViewModel()
     val onBoardingState by navigationViewModel.onBoardingState.collectAsState()
     val startDestination by navigationViewModel.startDestination.collectAsState()
-    val shouldShowError by navigationViewModel.shouldShowError.collectAsState()
+    val shouldShowNavError by navigationViewModel.shouldShowError.collectAsState()
     if (onBoardingState != OnBoardingState.LOADING) {
         onFinishSplash()
     }
-    if (shouldShowError.first) {
-        Toast.makeText(LocalContext.current, shouldShowError.second, Toast.LENGTH_SHORT).show()
+    if (shouldShowNavError.first) {
+        Toast.makeText(LocalContext.current, shouldShowNavError.second, Toast.LENGTH_SHORT).show()
     }
 
     NavHost(
@@ -56,9 +56,11 @@ fun SetupAsteroidRadarNavGraph(
             val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
             val pictureOfDay by homeScreenViewModel.pictureOfDay.collectAsState()
             val pictureState by homeScreenViewModel.pictureState.collectAsState()
+            val shouldShowHomeError by homeScreenViewModel.shouldShowHomeError.collectAsState()
             HomeScreen(
                 pictureOfDay = pictureOfDay,
-                pictureState = pictureState
+                pictureState = pictureState,
+                shouldShowHomeError = shouldShowHomeError
             )
         }
         composable(

@@ -43,15 +43,12 @@ class DataStoreRepo(context: Context) : IDataStoreRepo {
         return dataStore.data
             .catch { exception ->
                 emit(emptyPreferences())
-                Log.e("error on readOnBoardingState","${exception.printStackTrace()}")
+                Log.e("error on","readOnBoardingState")
+                DatastoreResponse.Error(exception)
             }
             .map { preferences ->
                 val onBoardingState = preferences[PreferencesKey.onBoardingKey] ?: false
-                if (preferences == emptyPreferences()) {
-                    DatastoreResponse.Error(Exception("Failed to load preferences"))
-                } else {
-                    DatastoreResponse.Success(isOnboardingComplete = flowOf(onBoardingState))
-                }
+                DatastoreResponse.Success(isOnboardingComplete = flowOf(onBoardingState))
             }
     }
 }

@@ -63,10 +63,7 @@ fun AsteroidDailyImage(
                     modifier = Modifier.fillMaxSize()
                 )
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(all = 8.dp),
-                    verticalArrangement = Arrangement.Center
+                    modifier = Modifier.padding(all = 8.dp)
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -89,7 +86,7 @@ fun AsteroidDailyImage(
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
                         text = pictureOfDay.copyright,
-                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize
                     )
                 }
             }
@@ -118,10 +115,7 @@ fun AsteroidDailyImage(
                     modifier = Modifier.fillMaxSize()
                 )
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(all = 8.dp),
-                    verticalArrangement = Arrangement.Center
+                    modifier = Modifier.padding(all = 8.dp)
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -144,7 +138,7 @@ fun AsteroidDailyImage(
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
                         text = pictureOfDay.copyright,
-                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize
                     )
                 }
             }

@@ -1,6 +1,7 @@
 package com.ar.asteroidradar.ui.screens.home
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,7 +27,14 @@ import com.ar.asteroidradar.utils.Constants.ASTEROIDS_MOCK
 import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 
 @Composable
-fun HomeScreen(pictureOfDay: PictureOfDay, pictureState: PictureState) {
+fun HomeScreen(
+    pictureOfDay: PictureOfDay,
+    pictureState: PictureState,
+    shouldShowHomeError: Pair<Boolean, String>
+) {
+    if (shouldShowHomeError.first) {
+        Toast.makeText(LocalContext.current, shouldShowHomeError.second, Toast.LENGTH_SHORT).show()
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
@@ -69,7 +78,8 @@ fun HomeScreenPreview(){
         Surface {
             HomeScreen(
                 pictureOfDay = PICTURE_OF_DAY_MOCK,
-                pictureState = PictureState.COMPLETED
+                pictureState = PictureState.COMPLETED,
+                shouldShowHomeError = Pair(false,"")
             )
         }
     }

@@ -10,6 +10,7 @@ import com.ar.asteroidradar.domain.states.PictureState
 import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,16 +25,28 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
     private val _pictureState = MutableStateFlow(PictureState.LOADING)
     val pictureState: StateFlow<PictureState> = _pictureState
 
+    private val _shouldShowHomeError = MutableStateFlow(Pair(false, ""))
+    val shouldShowHomeError: StateFlow<Pair<Boolean, String>> = _shouldShowHomeError
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            when (val pictureResponse = asteroidRepo.refreshPicture()){
-                is PictureResponse.PictureSuccess -> {
-                    _pictureOfDay.value = pictureResponse.pictureOfDayRemote.asDomainEntity()
-                    _pictureState.value = PictureState.COMPLETED
+            try {
+                val deferredPicture = async { asteroidRepo.refreshPicture() }
+                val deferredAsteroids = async { asteroidRepo.refreshAsteroids() }
+                when (val pictureResponse = deferredPicture.await()){
+                    is PictureResponse.PictureSuccess -> {
+                        _pictureOfDay.value = pictureResponse.pictureOfDayRemote.asDomainEntity()
+                        _pictureState.value = PictureState.COMPLETED
+                    }
+                    is PictureResponse.PictureError -> {
+                        _pictureState.value = PictureState.ERROR
+                        _shouldShowHomeError.value = Pair(true, pictureResponse.exception.message.toString())
+                    }
                 }
-                is PictureResponse.PictureError -> {
-                    _pictureState.value = PictureState.ERROR
-                }
+                deferredAsteroids.await()
+            } catch (exception: Exception) {
+                _pictureState.value = PictureState.ERROR
+                _shouldShowHomeError.value = Pair(true, exception.message.toString())
             }
         }
     }
