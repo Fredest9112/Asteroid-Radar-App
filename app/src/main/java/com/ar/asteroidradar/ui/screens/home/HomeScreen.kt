@@ -18,7 +18,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ar.asteroidradar.data.database.AsteroidDB
 import com.ar.asteroidradar.domain.entities.PictureOfDay
+import com.ar.asteroidradar.domain.entities.asDomainEntity
+import com.ar.asteroidradar.domain.states.AsteroidDataState
 import com.ar.asteroidradar.domain.states.PictureState
 import com.ar.asteroidradar.ui.components.home.AsteroidDailyImage
 import com.ar.asteroidradar.ui.components.home.AsteroidHolder
@@ -30,7 +33,9 @@ import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 fun HomeScreen(
     pictureOfDay: PictureOfDay,
     pictureState: PictureState,
-    shouldShowHomeError: Pair<Boolean, String>
+    shouldShowHomeError: Pair<Boolean, String>,
+    asteroids: List<AsteroidDB>,
+    asteroidDataState: AsteroidDataState
 ) {
     if (shouldShowHomeError.first) {
         Toast.makeText(LocalContext.current, shouldShowHomeError.second, Toast.LENGTH_SHORT).show()
@@ -53,10 +58,13 @@ fun HomeScreen(
         )
         LazyColumn {
             items(
-                items = ASTEROIDS_MOCK,
+                items = asteroids,
                 key = { it.id }
             ) {
-                AsteroidHolder(asteroid = it)
+                AsteroidHolder(
+                    asteroid = it,
+                    asteroidDataState = asteroidDataState
+                )
             }
         }
     }
@@ -79,7 +87,9 @@ fun HomeScreenPreview(){
             HomeScreen(
                 pictureOfDay = PICTURE_OF_DAY_MOCK,
                 pictureState = PictureState.COMPLETED,
-                shouldShowHomeError = Pair(false,"")
+                shouldShowHomeError = Pair(false,""),
+                asteroids = ASTEROIDS_MOCK.asDomainEntity(),
+                asteroidDataState = AsteroidDataState.COMPLETED
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.ar.asteroidradar.utils
 
+import com.ar.asteroidradar.data.database.AsteroidDB
 import com.ar.asteroidradar.data.models.AsteroidRemote
 import com.ar.asteroidradar.data.models.PictureOfDayRemote
 import com.ar.asteroidradar.domain.entities.PictureOfDay
@@ -31,12 +32,12 @@ object Constants {
         copyright = "copyright",
         date = "??-??-??",
         explanation = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        hdurl = "",
+        serviceVersion = "",
         mediaType = "image",
         title = "?????????",
         url = ""
     )
-    val ASTEROID_MOCK = AsteroidRemote(
+    val ASTEROID_MOCK = AsteroidDB(
         id = 12345L,
         codename = "codename",
         closeApproachDate = "approachDate",
@@ -44,14 +45,14 @@ object Constants {
         estimatedDiameter = 0.0,
         relativeVelocity = 0.0,
         distanceFromEarth = 0.0,
-        isPotentiallyHazardous = false
+        isPotentiallyHazardous = true
     )
 
     val ASTEROIDS_MOCK = listOf(
         AsteroidRemote(
-            id = 12345L,
-            codename = "codename",
-            closeApproachDate = "approachDate",
+            id = 1L,
+            codename = "????",
+            closeApproachDate = "????",
             absoluteMagnitude = 0.0,
             estimatedDiameter = 0.0,
             relativeVelocity = 0.0,
@@ -59,9 +60,9 @@ object Constants {
             isPotentiallyHazardous = false
         ),
         AsteroidRemote(
-            id = 67890L,
-            codename = "codename",
-            closeApproachDate = "approachDate",
+            id = 2L,
+            codename = "????",
+            closeApproachDate = "????",
             absoluteMagnitude = 0.0,
             estimatedDiameter = 0.0,
             relativeVelocity = 0.0,
@@ -69,9 +70,9 @@ object Constants {
             isPotentiallyHazardous = false
         ),
         AsteroidRemote(
-            id = 36598L,
-            codename = "codename",
-            closeApproachDate = "approachDate",
+            id = 3L,
+            codename = "????",
+            closeApproachDate = "????",
             absoluteMagnitude = 0.0,
             estimatedDiameter = 0.0,
             relativeVelocity = 0.0,
