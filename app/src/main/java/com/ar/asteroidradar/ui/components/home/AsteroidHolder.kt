@@ -5,13 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -32,7 +28,8 @@ import com.ar.asteroidradar.utils.Constants.ASTEROID_MOCK
 @Composable
 fun AsteroidHolder(
     asteroid: AsteroidDB,
-    asteroidDataState: AsteroidDataState) {
+    asteroidDataState: AsteroidDataState
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -46,20 +43,9 @@ fun AsteroidHolder(
     ) {
         when (asteroidDataState) {
             AsteroidDataState.LOADING -> {
-                Column(
-                    modifier = Modifier
-                        .padding(all = 10.dp)
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(50.dp)
-                    )
-                }
+                LoadingIndicator()
             }
+
             else -> {
                 Column(
                     horizontalAlignment = Alignment.Start,
@@ -75,7 +61,7 @@ fun AsteroidHolder(
                         fontSize = MaterialTheme.typography.labelSmall.fontSize
                     )
                 }
-                if(asteroid.isPotentiallyHazardous){
+                if (asteroid.isPotentiallyHazardous) {
                     Icon(
                         painter = painterResource(
                             id = R.drawable.bad_feeling_asteroid
