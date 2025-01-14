@@ -58,13 +58,16 @@ fun SetupAsteroidRadarNavGraph(
             val asteroidDataState by homeScreenViewModel.asteroidDataState.collectAsState()
             val pictureOfDay by homeScreenViewModel.pictureOfDay.collectAsState()
             val pictureState by homeScreenViewModel.pictureState.collectAsState()
+            val selectedOption by homeScreenViewModel.selectedOption.collectAsState()
             val shouldShowHomeError by homeScreenViewModel.shouldShowHomeError.collectAsState()
             HomeScreen(
                 asteroids = asteroids,
                 asteroidDataState = asteroidDataState,
                 pictureOfDay = pictureOfDay,
                 pictureState = pictureState,
-                shouldShowHomeError = shouldShowHomeError
+                shouldShowHomeError = shouldShowHomeError,
+                selectedOption = selectedOption,
+                onOptionSelected = { homeScreenViewModel.onOptionSelected(it) }
             )
         }
         composable(

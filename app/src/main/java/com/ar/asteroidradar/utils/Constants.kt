@@ -16,11 +16,15 @@ object Constants {
     const val LAST_PAGE_HORIZONTAL_PAGER = 2
     const val API_QUERY_DATE_FORMAT = "YYYY-MM-dd"
     const val DEFAULT_END_DATE_DAYS = 7
-    const val DEFAULT_DELETE_DAYS = 14
+    const val DEFAULT_DELETE_DAYS = 30
     const val BASE_URL = "https://api.nasa.gov/"
     const val PICTURE_DAY = "planetary/apod?api_key=wT9VJl9RYcLFrQDTvlwGTu24BkSHy3l8SU7eAmIi"
     const val ASTEROIDS_DATA = "neo/rest/v1/feed"
     const val API_KEY = "wT9VJl9RYcLFrQDTvlwGTu24BkSHy3l8SU7eAmIi"
+    const val TODAY_TIME_STATE = "Today"
+    const val WEEK_TIME_STATE = "Week"
+    const val ALL_TIME_STATE = "All"
+    val DATE_OPTIONS = listOf(TODAY_TIME_STATE,WEEK_TIME_STATE,ALL_TIME_STATE)
     val PICTURE_OF_DAY_MOCK = PictureOfDay(
         copyright = "copyright",
         date = "??-??-??",

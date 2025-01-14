@@ -9,6 +9,7 @@ import com.ar.asteroidradar.domain.exceptions.AsteroidResponse
 import com.ar.asteroidradar.domain.exceptions.PictureResponse
 import com.ar.asteroidradar.domain.repo.IAsteroidRepo
 import com.ar.asteroidradar.domain.states.AsteroidDataState
+import com.ar.asteroidradar.domain.states.AsteroidTimeState
 import com.ar.asteroidradar.domain.states.PictureState
 import com.ar.asteroidradar.utils.Constants.ASTEROIDS_MOCK
 import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
@@ -39,6 +40,9 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
     private val _shouldShowHomeError = MutableStateFlow(Pair(false, ""))
     val shouldShowHomeError: StateFlow<Pair<Boolean, String>> = _shouldShowHomeError
 
+    private val _selectedOption = MutableStateFlow(value = AsteroidTimeState.TODAY)
+    val selectedOption: StateFlow<AsteroidTimeState> = _selectedOption
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             launch { getPictureOfTheDay() }
@@ -52,17 +56,8 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
                 val deferredAsteroids = async { asteroidRepo.refreshAsteroids() }
                 deferredAsteroids.await()
                 if(deferredAsteroids.isCompleted) {
-                    asteroidRepo.getTodayAsteroids().collect{
-                        when(it){
-                            is AsteroidResponse.AsteroidsSuccess -> {
-                                _asteroidDataState.value = AsteroidDataState.COMPLETED
-                                _asteroids.value = it.asteroids.ifEmpty { ASTEROIDS_MOCK.asDomainEntity() }
-                            }
-                            is AsteroidResponse.AsteroidsError -> {
-                                _asteroidDataState.value = AsteroidDataState.ERROR
-                                _shouldShowHomeError.value = Pair(true, it.exception.message.toString())
-                            }
-                        }
+                    asteroidRepo.getTodayAsteroids().collect {
+                        getAsteroidData(it)
                     }
                 }
             } catch (exception: Exception) {
@@ -80,7 +75,6 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
                         _pictureOfDay.value = pictureResponse.pictureOfDayRemote.asDomainEntity()
                         _pictureState.value = PictureState.COMPLETED
                     }
-
                     is PictureResponse.PictureError -> {
                         _pictureState.value = PictureState.ERROR
                         _shouldShowHomeError.value =
@@ -88,8 +82,45 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
                     }
                 }
             } catch (exception: Exception) {
-                _pictureState.value = PictureState.ERROR
                 _shouldShowHomeError.value = Pair(true, exception.message.toString())
+            }
+        }
+    }
+
+    fun onOptionSelected(timeOption: String) {
+        _selectedOption.value = AsteroidTimeState.fromString(timeOption)
+        _asteroidDataState.value = AsteroidDataState.LOADING
+        viewModelScope.launch {
+            when(_selectedOption.value){
+                AsteroidTimeState.TODAY -> {
+                    asteroidRepo.getTodayAsteroids().collect {
+                        getAsteroidData(data = it)
+                    }
+                }
+                AsteroidTimeState.WEEK -> {
+                    asteroidRepo.getWeekAsteroids().collect {
+                        getAsteroidData(data = it)
+                    }
+                }
+                else -> {
+                    asteroidRepo.getAllAsteroids().collect {
+                        getAsteroidData(data = it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getAsteroidData(data: AsteroidResponse) {
+        when (data) {
+            is AsteroidResponse.AsteroidsSuccess -> {
+                _asteroidDataState.value = AsteroidDataState.COMPLETED
+                _asteroids.value = data.asteroids.ifEmpty { ASTEROIDS_MOCK.asDomainEntity() }
+            }
+
+            is AsteroidResponse.AsteroidsError -> {
+                _asteroidDataState.value = AsteroidDataState.ERROR
+                _shouldShowHomeError.value = Pair(true, data.exception.message.toString())
             }
         }
     }

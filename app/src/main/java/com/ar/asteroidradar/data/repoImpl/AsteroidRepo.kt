@@ -38,7 +38,26 @@ class AsteroidRepo(private val database: AsteroidDatabase): IAsteroidRepo {
     override suspend fun getTodayAsteroids(): Flow<AsteroidResponse> {
         return database.asteroidDao.getTodayAsteroids(Date.currentTime)
             .catch { exception ->
-                Log.i("error getting today asteroids", "${exception.message}")
+                AsteroidResponse.AsteroidsError(exception = exception)
+            }
+            .map { asteroids ->
+                AsteroidResponse.AsteroidsSuccess(asteroids = asteroids)
+            }
+    }
+
+    override suspend fun getWeekAsteroids(): Flow<AsteroidResponse> {
+        return database.asteroidDao.getWeekAsteroids(Date.oneWeekAgo, Date.currentTime)
+            .catch { exception ->
+                AsteroidResponse.AsteroidsError(exception = exception)
+            }
+            .map { asteroids ->
+                AsteroidResponse.AsteroidsSuccess(asteroids = asteroids)
+            }
+    }
+
+    override suspend fun getAllAsteroids(): Flow<AsteroidResponse> {
+        return database.asteroidDao.getAsteroids()
+            .catch { exception ->
                 AsteroidResponse.AsteroidsError(exception = exception)
             }
             .map { asteroids ->
@@ -64,7 +83,6 @@ class AsteroidRepo(private val database: AsteroidDatabase): IAsteroidRepo {
                 pictureOfDayRemote = response.body() ?: pictureOfDayRemote
                 PictureResponse.PictureSuccess(pictureOfDayRemote = pictureOfDayRemote)
             } catch (exception: Exception) {
-                Log.i("error refreshing picture", "${exception.message}")
                 PictureResponse.PictureError(exception)
             }
         }
