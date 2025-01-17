@@ -57,7 +57,7 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
                 deferredAsteroids.await()
                 if(deferredAsteroids.isCompleted) {
                     asteroidRepo.getTodayAsteroids().collect {
-                        getAsteroidData(it)
+                        fetchAsteroidData(it)
                     }
                 }
             } catch (exception: Exception) {
@@ -94,24 +94,24 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
             when(_selectedOption.value){
                 AsteroidTimeState.TODAY -> {
                     asteroidRepo.getTodayAsteroids().collect {
-                        getAsteroidData(data = it)
+                        fetchAsteroidData(data = it)
                     }
                 }
                 AsteroidTimeState.WEEK -> {
                     asteroidRepo.getWeekAsteroids().collect {
-                        getAsteroidData(data = it)
+                        fetchAsteroidData(data = it)
                     }
                 }
                 else -> {
                     asteroidRepo.getAllAsteroids().collect {
-                        getAsteroidData(data = it)
+                        fetchAsteroidData(data = it)
                     }
                 }
             }
         }
     }
 
-    private fun getAsteroidData(data: AsteroidResponse) {
+    private fun fetchAsteroidData(data: AsteroidResponse) {
         when (data) {
             is AsteroidResponse.AsteroidsSuccess -> {
                 _asteroidDataState.value = AsteroidDataState.COMPLETED

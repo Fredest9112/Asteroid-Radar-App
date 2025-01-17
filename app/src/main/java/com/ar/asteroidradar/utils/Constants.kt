@@ -41,15 +41,37 @@ object Constants {
         title = "?????????",
         url = ""
     )
-    val ASTEROID_MOCK = AsteroidDB(
-        id = 12345L,
-        codename = "codename",
-        closeApproachDate = "approachDate",
-        absoluteMagnitude = 0.0,
-        estimatedDiameter = 0.0,
-        relativeVelocity = 0.0,
-        distanceFromEarth = 0.0,
-        isPotentiallyHazardous = true
+    val ASTEROIDS_DB_MOCK = listOf(
+        AsteroidDB(
+            id = 12345L,
+            codename = "codename",
+            closeApproachDate = "approachDate",
+            absoluteMagnitude = 0.0,
+            estimatedDiameter = 0.0,
+            relativeVelocity = 0.0,
+            distanceFromEarth = 0.0,
+            isPotentiallyHazardous = true
+        ),
+        AsteroidDB(
+            id = 12345L,
+            codename = "codename",
+            closeApproachDate = "approachDate",
+            absoluteMagnitude = 0.0,
+            estimatedDiameter = 0.0,
+            relativeVelocity = 0.0,
+            distanceFromEarth = 0.0,
+            isPotentiallyHazardous = true
+        ),
+        AsteroidDB(
+            id = 12345L,
+            codename = "codename",
+            closeApproachDate = "approachDate",
+            absoluteMagnitude = 0.0,
+            estimatedDiameter = 0.0,
+            relativeVelocity = 0.0,
+            distanceFromEarth = 0.0,
+            isPotentiallyHazardous = true
+        )
     )
 
     val ASTEROIDS_MOCK = listOf(

@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,67 +25,74 @@ import com.ar.asteroidradar.R
 import com.ar.asteroidradar.data.database.AsteroidDB
 import com.ar.asteroidradar.domain.states.AsteroidDataState
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
-import com.ar.asteroidradar.utils.Constants.ASTEROID_MOCK
+import com.ar.asteroidradar.utils.Constants.ASTEROIDS_DB_MOCK
 
 @Composable
 fun AsteroidHolder(
-    asteroid: AsteroidDB,
+    asteroids: List<AsteroidDB>,
     asteroidDataState: AsteroidDataState
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .padding(all = 10.dp)
-            .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(10.dp))
-            .background(
-                color = MaterialTheme.colorScheme.secondaryContainer
-            )
-    ) {
-        when (asteroidDataState) {
-            AsteroidDataState.LOADING -> {
-                LoadingIndicator()
-            }
+    LazyColumn {
+        items(
+            items = asteroids,
+            key = { it.id }
+        ) { asteroid ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .padding(all = 10.dp)
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(10.dp))
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer
+                    )
+            ) {
+                when (asteroidDataState) {
+                    AsteroidDataState.LOADING -> {
+                        LoadingIndicator()
+                    }
 
-            else -> {
-                Column(
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier
-                        .padding(all = 5.dp)
-                ) {
-                    Text(
-                        text = asteroid.codename,
-                        fontSize = MaterialTheme.typography.titleLarge.fontSize
-                    )
-                    Text(
-                        text = asteroid.closeApproachDate,
-                        fontSize = MaterialTheme.typography.labelSmall.fontSize
-                    )
+                    else -> {
+                        Column(
+                            horizontalAlignment = Alignment.Start,
+                            modifier = Modifier
+                                .padding(all = 5.dp)
+                        ) {
+                            Text(
+                                text = asteroid.codename,
+                                fontSize = MaterialTheme.typography.titleLarge.fontSize
+                            )
+                            Text(
+                                text = asteroid.closeApproachDate,
+                                fontSize = MaterialTheme.typography.labelSmall.fontSize
+                            )
+                        }
+                        if (asteroid.isPotentiallyHazardous) {
+                            Icon(
+                                painter = painterResource(
+                                    id = R.drawable.bad_feeling_asteroid
+                                ),
+                                contentDescription = "bad feeling about asteroid",
+                                modifier = Modifier
+                                    .padding(all = 5.dp),
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(
+                                    id = R.drawable.good_feeling_asteroid
+                                ),
+                                contentDescription = "good feeling about asteroid",
+                                modifier = Modifier
+                                    .padding(all = 5.dp)
+                            )
+                        }
+                    }
                 }
-                if (asteroid.isPotentiallyHazardous) {
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.bad_feeling_asteroid
-                        ),
-                        contentDescription = "bad feeling about asteroid",
-                        modifier = Modifier
-                            .padding(all = 5.dp),
-                        tint = MaterialTheme.colorScheme.error
-                    )
-                } else {
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.good_feeling_asteroid
-                        ),
-                        contentDescription = "good feeling about asteroid",
-                        modifier = Modifier
-                            .padding(all = 5.dp)
-                    )
-                }
+
             }
         }
-
     }
 }
 
@@ -102,7 +111,7 @@ fun AsteroidHolderPreview() {
     AsteroidRadarAppTheme {
         Surface {
             AsteroidHolder(
-                asteroid = ASTEROID_MOCK,
+                asteroids = ASTEROIDS_DB_MOCK,
                 asteroidDataState = AsteroidDataState.COMPLETED
             )
         }
