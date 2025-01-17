@@ -1,7 +1,6 @@
 package com.ar.asteroidradar.ui.screens.home
 
 import android.content.res.Configuration
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,6 +20,7 @@ import com.ar.asteroidradar.domain.entities.asDomainEntity
 import com.ar.asteroidradar.domain.states.AsteroidDataState
 import com.ar.asteroidradar.domain.states.AsteroidTimeState
 import com.ar.asteroidradar.domain.states.PictureState
+import com.ar.asteroidradar.ui.components.error.ToastError
 import com.ar.asteroidradar.ui.components.home.AsteroidDailyImage
 import com.ar.asteroidradar.ui.components.home.AsteroidsHolder
 import com.ar.asteroidradar.ui.components.home.DateChooser
@@ -37,11 +36,9 @@ fun HomeScreen(
     asteroids: List<AsteroidDB>,
     asteroidDataState: AsteroidDataState,
     selectedOption: AsteroidTimeState,
-    onOptionSelected: (String) -> Unit
+    onOptionSelected: (String) -> Unit,
+    onErrorMessageShown: () -> Unit
 ) {
-    if (shouldShowHomeError.first) {
-        Toast.makeText(LocalContext.current, shouldShowHomeError.second, Toast.LENGTH_SHORT).show()
-    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
@@ -67,6 +64,11 @@ fun HomeScreen(
             asteroidDataState = asteroidDataState
         )
     }
+    ToastError(
+        isThereAnError = shouldShowHomeError.first,
+        message = shouldShowHomeError.second,
+        onErrorMessageShown = onErrorMessageShown
+    )
 }
 
 @Preview(
@@ -90,7 +92,8 @@ fun HomeScreenPreview(){
                 asteroids = ASTEROIDS_MOCK.asDomainEntity(),
                 asteroidDataState = AsteroidDataState.COMPLETED,
                 selectedOption = AsteroidTimeState.TODAY,
-                onOptionSelected = {  }
+                onOptionSelected = { },
+                onErrorMessageShown = { }
             )
         }
     }

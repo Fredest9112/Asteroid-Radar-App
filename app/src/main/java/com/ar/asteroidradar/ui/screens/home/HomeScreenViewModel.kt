@@ -110,6 +110,10 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
         }
     }
 
+    fun errorShown() {
+        _shouldShowHomeError.value = false to ""
+    }
+
     private fun fetchAsteroidData(data: AsteroidResponse) {
         when (data) {
             is AsteroidResponse.AsteroidsSuccess -> {

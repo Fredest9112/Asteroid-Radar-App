@@ -1,6 +1,7 @@
 package com.ar.asteroidradar.domain.entities
 
 import com.ar.asteroidradar.data.models.PictureOfDayRemote
+import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 import com.ar.asteroidradar.utils.normalize
 
 data class PictureOfDay(
@@ -13,10 +14,10 @@ data class PictureOfDay(
 
 fun PictureOfDayRemote.asDomainEntity(): PictureOfDay {
     return PictureOfDay(
-        url = url,
-        copyright = copyright.normalize(),
-        date = date,
-        explanation = explanation.normalize(),
-        title = title.normalize()
+        url = url ?: PICTURE_OF_DAY_MOCK.url,
+        copyright = copyright?.normalize() ?: PICTURE_OF_DAY_MOCK.copyright,
+        date = date ?: PICTURE_OF_DAY_MOCK.date,
+        explanation = explanation?.normalize() ?: PICTURE_OF_DAY_MOCK.explanation,
+        title = title?.normalize() ?: PICTURE_OF_DAY_MOCK.title
     )
 }

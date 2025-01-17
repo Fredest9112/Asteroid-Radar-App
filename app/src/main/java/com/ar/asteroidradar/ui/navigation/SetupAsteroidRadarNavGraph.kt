@@ -67,7 +67,8 @@ fun SetupAsteroidRadarNavGraph(
                 pictureState = pictureState,
                 shouldShowHomeError = shouldShowHomeError,
                 selectedOption = selectedOption,
-                onOptionSelected = { homeScreenViewModel.onOptionSelected(it) }
+                onOptionSelected = { homeScreenViewModel.onOptionSelected(it) },
+                onErrorMessageShown = { homeScreenViewModel.errorShown() }
             )
         }
         composable(
