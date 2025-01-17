@@ -28,7 +28,7 @@ import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
 import com.ar.asteroidradar.utils.Constants.ASTEROIDS_DB_MOCK
 
 @Composable
-fun AsteroidHolder(
+fun AsteroidsHolder(
     asteroids: List<AsteroidDB>,
     asteroidDataState: AsteroidDataState
 ) {
@@ -107,10 +107,10 @@ fun AsteroidHolder(
     name = "DefaultPreviewLight"
 )
 @Composable
-fun AsteroidHolderPreview() {
+fun AsteroidsHolderPreview() {
     AsteroidRadarAppTheme {
         Surface {
-            AsteroidHolder(
+            AsteroidsHolder(
                 asteroids = ASTEROIDS_DB_MOCK,
                 asteroidDataState = AsteroidDataState.COMPLETED
             )

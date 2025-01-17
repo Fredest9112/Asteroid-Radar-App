@@ -37,7 +37,7 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
     private val _pictureState = MutableStateFlow(PictureState.LOADING)
     val pictureState: StateFlow<PictureState> = _pictureState
 
-    private val _shouldShowHomeError = MutableStateFlow(Pair(false, ""))
+    private val _shouldShowHomeError = MutableStateFlow(false to "")
     val shouldShowHomeError: StateFlow<Pair<Boolean, String>> = _shouldShowHomeError
 
     private val _selectedOption = MutableStateFlow(value = AsteroidTimeState.TODAY)
@@ -61,7 +61,7 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
                     }
                 }
             } catch (exception: Exception) {
-                _shouldShowHomeError.value = Pair(true, exception.message.toString())
+                _shouldShowHomeError.value = true to exception.message.toString()
             }
         }
     }
@@ -77,12 +77,11 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
                     }
                     is PictureResponse.PictureError -> {
                         _pictureState.value = PictureState.ERROR
-                        _shouldShowHomeError.value =
-                            Pair(true, pictureResponse.exception.message.toString())
+                        _shouldShowHomeError.value = true to pictureResponse.exception.message.toString()
                     }
                 }
             } catch (exception: Exception) {
-                _shouldShowHomeError.value = Pair(true, exception.message.toString())
+                _shouldShowHomeError.value = true to exception.message.toString()
             }
         }
     }
@@ -120,7 +119,7 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
 
             is AsteroidResponse.AsteroidsError -> {
                 _asteroidDataState.value = AsteroidDataState.ERROR
-                _shouldShowHomeError.value = Pair(true, data.exception.message.toString())
+                _shouldShowHomeError.value = true to data.exception.message.toString()
             }
         }
     }

@@ -23,7 +23,7 @@ import com.ar.asteroidradar.domain.states.AsteroidDataState
 import com.ar.asteroidradar.domain.states.AsteroidTimeState
 import com.ar.asteroidradar.domain.states.PictureState
 import com.ar.asteroidradar.ui.components.home.AsteroidDailyImage
-import com.ar.asteroidradar.ui.components.home.AsteroidHolder
+import com.ar.asteroidradar.ui.components.home.AsteroidsHolder
 import com.ar.asteroidradar.ui.components.home.DateChooser
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
 import com.ar.asteroidradar.utils.Constants.ASTEROIDS_MOCK
@@ -62,7 +62,7 @@ fun HomeScreen(
             onOptionSelected = onOptionSelected,
             selectedOption = selectedOption
         )
-        AsteroidHolder(
+        AsteroidsHolder(
             asteroids = asteroids,
             asteroidDataState = asteroidDataState
         )
