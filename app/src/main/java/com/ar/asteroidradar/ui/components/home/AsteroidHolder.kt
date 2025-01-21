@@ -29,6 +29,7 @@ import com.ar.asteroidradar.utils.Constants.ASTEROIDS_DB_MOCK
 
 @Composable
 fun AsteroidsHolder(
+    modifier: Modifier = Modifier,
     asteroids: List<AsteroidDB>,
     asteroidDataState: AsteroidDataState
 ) {
@@ -40,7 +41,7 @@ fun AsteroidsHolder(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
+                modifier = modifier
                     .padding(all = 10.dp)
                     .fillMaxWidth()
                     .clip(shape = RoundedCornerShape(10.dp))
