@@ -22,7 +22,7 @@ class NavigationViewModel @Inject constructor(
     private val _startDestination = MutableStateFlow(Screen.Splash.route)
     val startDestination: StateFlow<String> = _startDestination
 
-    private val _shouldShowError = MutableStateFlow(Pair(false, ""))
+    private val _shouldShowError = MutableStateFlow(false to "")
     val shouldShowError: StateFlow<Pair<Boolean, String>> = _shouldShowError
 
     init {
@@ -40,9 +40,13 @@ class NavigationViewModel @Inject constructor(
                 is DatastoreResponse.Error -> {
                     _startDestination.value = Screen.Home.route
                     _onBoardingState.value = OnBoardingState.NOT_COMPLETED
-                    _shouldShowError.value = Pair(true, datastoreResponse.exception.message.toString())
+                    _shouldShowError.value = true to datastoreResponse.exception.message.toString()
                 }
             }
         }
+    }
+
+    fun errorShown() {
+        _shouldShowError.value = false to ""
     }
 }

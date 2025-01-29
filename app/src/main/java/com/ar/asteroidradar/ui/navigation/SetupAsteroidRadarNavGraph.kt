@@ -1,11 +1,10 @@
 package com.ar.asteroidradar.ui.navigation
 
 import android.net.Uri
-import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -13,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.ar.asteroidradar.domain.states.OnBoardingState
+import com.ar.asteroidradar.ui.components.error.ToastError
 import com.ar.asteroidradar.ui.screens.detailedImage.AsteroidDetailedImage
 import com.ar.asteroidradar.ui.screens.home.HomeScreen
 import com.ar.asteroidradar.ui.screens.home.HomeScreenViewModel
@@ -31,11 +31,11 @@ fun SetupAsteroidRadarNavGraph(
     val onBoardingState by navigationViewModel.onBoardingState.collectAsState()
     val startDestination by navigationViewModel.startDestination.collectAsState()
     val shouldShowNavError by navigationViewModel.shouldShowError.collectAsState()
-    if (onBoardingState != OnBoardingState.LOADING) {
-        onFinishSplash()
-    }
-    if (shouldShowNavError.first) {
-        Toast.makeText(LocalContext.current, shouldShowNavError.second, Toast.LENGTH_SHORT).show()
+
+    LaunchedEffect(key1 = onBoardingState) {
+        if (onBoardingState != OnBoardingState.LOADING) {
+            onFinishSplash()
+        }
     }
 
     NavHost(
@@ -73,9 +73,11 @@ fun SetupAsteroidRadarNavGraph(
                 onOptionSelected = { homeScreenViewModel.onOptionSelected(it) },
                 onErrorMessageShown = { homeScreenViewModel.errorShown() },
                 onImageClicked = { chosenPictureOfDay ->
-                    navHostController.navigate(Screen.AsteroidDetailImage.asteroidDetailImage(
-                        url = chosenPictureOfDay.url,
-                        explanation = chosenPictureOfDay.explanation)
+                    navHostController.navigate(
+                        Screen.AsteroidDetailImage.asteroidDetailImage(
+                            url = chosenPictureOfDay.url,
+                            explanation = chosenPictureOfDay.explanation
+                        )
                     )
                 }
             )
@@ -95,12 +97,21 @@ fun SetupAsteroidRadarNavGraph(
                 navArgument(name = "explanation") { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val urlPicture = backStackEntry.arguments?.getString("url").let { Uri.decode(it) } ?: PICTURE_OF_DAY_MOCK.url
-            val explanationPicture = backStackEntry.arguments?.getString("explanation").let { Uri.decode(it) } ?: PICTURE_OF_DAY_MOCK.explanation
+            val urlPicture = backStackEntry.arguments?.getString("url").let { Uri.decode(it) }
+                ?: PICTURE_OF_DAY_MOCK.url
+            val explanationPicture =
+                backStackEntry.arguments?.getString("explanation").let { Uri.decode(it) }
+                    ?: PICTURE_OF_DAY_MOCK.explanation
             AsteroidDetailedImage(
                 urlPicture = urlPicture,
                 explanationPicture = explanationPicture
             )
         }
     }
+
+    ToastError(
+        isThereAnError = shouldShowNavError.first,
+        message = shouldShowNavError.second,
+        onErrorMessageShown = { navigationViewModel.errorShown() }
+    )
 }

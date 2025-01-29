@@ -1,6 +1,7 @@
 package com.ar.asteroidradar.ui.screens.home
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -57,10 +58,12 @@ fun HomeScreen(
             pictureState = pictureState,
             onImageClicked = onImageClicked
         )
-        DateChooser(
-            onOptionSelected = onOptionSelected,
-            selectedOption = selectedOption
-        )
+        AnimatedVisibility(visible = asteroidDataState == AsteroidDataState.COMPLETED) {
+            DateChooser(
+                onOptionSelected = onOptionSelected,
+                selectedOption = selectedOption
+            )
+        }
         AsteroidsHolder(
             asteroids = asteroids,
             asteroidDataState = asteroidDataState

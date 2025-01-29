@@ -11,6 +11,9 @@
       <SelectionState runConfigName="ZoomableImagePreview - DefaultPreviewDark">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="HomeScreenPreview - DefaultPreviewDark">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>
