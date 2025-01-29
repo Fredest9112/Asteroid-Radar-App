@@ -4,7 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
@@ -32,7 +33,7 @@ import coil.request.ImageRequest
 import com.ar.asteroidradar.ui.theme.AsteroidRadarAppTheme
 
 @Composable
-fun ZoomableImage(
+fun AsteroidZoomableImage(
     selectedImage: String?,
     onCloseClicked: () -> Unit
 ) {
@@ -71,12 +72,13 @@ fun ZoomableImage(
                 contentScale = ContentScale.Fit,
                 contentDescription = "asteroid image"
             )
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
                     .padding(top = 24.dp),
-                horizontalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
                     onClick = { onCloseClicked() },
@@ -103,9 +105,10 @@ fun ZoomableImage(
 fun ZoomableImagePreview() {
     AsteroidRadarAppTheme {
         Surface {
-            ZoomableImage(
+            AsteroidZoomableImage(
                 selectedImage = "",
-                onCloseClicked = { })
+                onCloseClicked = { }
+            )
         }
     }
 }

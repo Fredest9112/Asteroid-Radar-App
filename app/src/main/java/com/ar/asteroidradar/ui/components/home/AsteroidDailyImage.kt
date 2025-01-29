@@ -1,6 +1,7 @@
 package com.ar.asteroidradar.ui.components.home
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -93,10 +94,14 @@ fun AsteroidDailyImage(
                         text = pictureOfDay.copyright,
                         fontSize = MaterialTheme.typography.bodyMedium.fontSize
                     )
-                    if (imageClicked) ZoomableImage(
-                        selectedImage = pictureOfDay.url,
-                        onCloseClicked = { imageClicked = false }
-                    )
+                    if (imageClicked) {
+                        AnimatedVisibility(visible = pictureOfDay.url.isNotEmpty()) {
+                            AsteroidZoomableImage(
+                                selectedImage = pictureOfDay.url,
+                                onCloseClicked = { imageClicked = false }
+                            )
+                        }
+                    }
                 }
             }
 
