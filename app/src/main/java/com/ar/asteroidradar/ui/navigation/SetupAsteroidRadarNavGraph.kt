@@ -1,5 +1,6 @@
 package com.ar.asteroidradar.ui.navigation
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -11,13 +12,15 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.ar.asteroidradar.domain.states.OnBoardingState
+import com.ar.asteroidradar.ui.screens.detailedImage.AsteroidDetailedImage
 import com.ar.asteroidradar.ui.screens.home.HomeScreen
 import com.ar.asteroidradar.ui.screens.home.HomeScreenViewModel
 import com.ar.asteroidradar.ui.screens.splash.SplashScreen
 import com.ar.asteroidradar.ui.screens.welcome.WelcomeScreen
 import com.ar.asteroidradar.ui.screens.welcome.WelcomeViewModel
 import com.ar.asteroidradar.utils.Constants.ASTEROID_ID_KEY
-import com.ar.asteroidradar.domain.states.OnBoardingState
+import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 
 @Composable
 fun SetupAsteroidRadarNavGraph(
@@ -68,7 +71,13 @@ fun SetupAsteroidRadarNavGraph(
                 shouldShowHomeError = shouldShowHomeError,
                 selectedOption = selectedOption,
                 onOptionSelected = { homeScreenViewModel.onOptionSelected(it) },
-                onErrorMessageShown = { homeScreenViewModel.errorShown() }
+                onErrorMessageShown = { homeScreenViewModel.errorShown() },
+                onImageClicked = { chosenPictureOfDay ->
+                    navHostController.navigate(Screen.AsteroidDetailImage.asteroidDetailImage(
+                        url = chosenPictureOfDay.url,
+                        explanation = chosenPictureOfDay.explanation)
+                    )
+                }
             )
         }
         composable(
@@ -78,6 +87,20 @@ fun SetupAsteroidRadarNavGraph(
             })
         ) {
 
+        }
+        composable(
+            route = Screen.AsteroidDetailImage.route,
+            arguments = listOf(
+                navArgument(name = "url") { type = NavType.StringType },
+                navArgument(name = "explanation") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val urlPicture = backStackEntry.arguments?.getString("url").let { Uri.decode(it) } ?: PICTURE_OF_DAY_MOCK.url
+            val explanationPicture = backStackEntry.arguments?.getString("explanation").let { Uri.decode(it) } ?: PICTURE_OF_DAY_MOCK.explanation
+            AsteroidDetailedImage(
+                urlPicture = urlPicture,
+                explanationPicture = explanationPicture
+            )
         }
     }
 }

@@ -37,7 +37,8 @@ fun HomeScreen(
     asteroidDataState: AsteroidDataState,
     selectedOption: AsteroidTimeState,
     onOptionSelected: (String) -> Unit,
-    onErrorMessageShown: () -> Unit
+    onErrorMessageShown: () -> Unit,
+    onImageClicked: (PictureOfDay) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -53,7 +54,8 @@ fun HomeScreen(
         )
         AsteroidDailyImage(
             pictureOfDay = pictureOfDay,
-            pictureState = pictureState
+            pictureState = pictureState,
+            onImageClicked = onImageClicked
         )
         DateChooser(
             onOptionSelected = onOptionSelected,
@@ -93,7 +95,8 @@ fun HomeScreenPreview(){
                 asteroidDataState = AsteroidDataState.COMPLETED,
                 selectedOption = AsteroidTimeState.TODAY,
                 onOptionSelected = { },
-                onErrorMessageShown = { }
+                onErrorMessageShown = { },
+                onImageClicked = { }
             )
         }
     }

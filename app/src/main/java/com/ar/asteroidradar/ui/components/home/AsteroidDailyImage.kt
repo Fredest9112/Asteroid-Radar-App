@@ -1,7 +1,6 @@
 package com.ar.asteroidradar.ui.components.home
 
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,10 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -41,9 +36,9 @@ import com.ar.asteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 @Composable
 fun AsteroidDailyImage(
     pictureOfDay: PictureOfDay,
-    pictureState: PictureState
+    pictureState: PictureState,
+    onImageClicked: (PictureOfDay) -> Unit
 ) {
-    var imageClicked by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .padding(all = 10.dp)
@@ -66,7 +61,7 @@ fun AsteroidDailyImage(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxSize()
-                        .clickable { imageClicked = true }
+                        .clickable { onImageClicked( pictureOfDay ) }
                 )
                 Column(
                     modifier = Modifier.padding(all = 8.dp)
@@ -94,14 +89,6 @@ fun AsteroidDailyImage(
                         text = pictureOfDay.copyright,
                         fontSize = MaterialTheme.typography.bodyMedium.fontSize
                     )
-                    if (imageClicked) {
-                        AnimatedVisibility(visible = pictureOfDay.url.isNotEmpty()) {
-                            AsteroidZoomableImage(
-                                selectedImage = pictureOfDay.url,
-                                onCloseClicked = { imageClicked = false }
-                            )
-                        }
-                    }
                 }
             }
 
@@ -164,7 +151,8 @@ fun HomeScreenPreview() {
         Surface {
             AsteroidDailyImage(
                 pictureOfDay = PICTURE_OF_DAY_MOCK,
-                pictureState = PictureState.ERROR
+                pictureState = PictureState.ERROR,
+                onImageClicked = { }
             )
         }
     }

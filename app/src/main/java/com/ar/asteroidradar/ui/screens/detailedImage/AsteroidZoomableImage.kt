@@ -1,4 +1,4 @@
-package com.ar.asteroidradar.ui.components.home
+package com.ar.asteroidradar.ui.screens.detailedImage
 
 import android.content.res.Configuration
 import androidx.compose.foundation.gestures.detectTransformGestures

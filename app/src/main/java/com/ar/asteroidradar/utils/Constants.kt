@@ -13,6 +13,8 @@ object Constants {
     //App constants
     const val ASTEROID_DB_NAME = "asteroids"
     const val ASTEROID_ID_KEY = "asteroidId"
+    const val ASTEROID_DETAILED_IMAGE_KEY = "asteroiddetailedimage_screen"
+    const val ASTEROID_DETAILED_KEY = "asteroiddetails_screen"
     const val LAST_PAGE_HORIZONTAL_PAGER = 2
     const val API_QUERY_DATE_FORMAT = "YYYY-MM-dd"
     const val DEFAULT_END_DATE_DAYS = 7
