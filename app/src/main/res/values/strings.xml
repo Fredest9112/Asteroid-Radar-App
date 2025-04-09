@@ -13,7 +13,7 @@
     <string name="km_unit_format" translatable="false">%f km</string>
     <string name="km_s_unit_format" translatable="false">%f km/s</string>
     <string name="image_of_the_day">Image of the Day</string>
-    <string name="astronomica_unit_explanation">The astronomical unit (au) is a unit of length, roughly the distance from Earth to the Sun and equal to about 150 million kilometres (93 million miles)</string>
+    <string name="astronomical_unit_explanation">The astronomical unit (au) is a unit of length, roughly the distance from Earth to the Sun and equal to about 150 million kilometres (93 million miles)</string>
     <string name="astronomical_unit_explanation_button">Astronomical unit definition</string>
     <string name="potentially_hazardous_asteroid_image">Potentially hazardous asteroid</string>
     <string name="not_hazardous_asteroid_image">Not hazardous asteroid</string>
@@ -22,4 +22,10 @@
     <string name="image_day">Image of the day</string>
     <string name="asteroid_name" translatable="false">68347 (2001 KB67)</string>
     <string name="asteroid_date" translatable="false">2020–02–08</string>
+    <string name="picture_status">loading picture</string>
+    <string name="list_of_asteroids">list of asteroids</string>
+    <string name="grade_of_danger">grade of danger</string>
+    <string name="info_about_units">info about units</string>
+    <string name="asteroid_image">asteroid image</string>
+    <string name="ok_button_dialog" translatable="false">OK</string>
 </resources>

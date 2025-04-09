@@ -13,11 +13,22 @@ android {
     compileSdk = 35
     defaultConfig {
         applicationId = 'com.ar.asteroidradar'
-        minSdk = 22
+        minSdk = 24
         targetSdk = 35
         versionCode = 7
         versionName = "1.5"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lint {
+        abortOnError false     // Prevent build from failing on lint errors
+        checkAllWarnings true  // Check all warnings
+        explainIssues true     // Explain issues in console
+        showAll true           // Show all issues
+    }
+    tasks.configureEach { task ->
+        if (task.name == 'assembleDebug' || task.name == 'assembleRelease') {
+            task.finalizedBy 'lint'
+        }
     }
     buildTypes {
         debug {
