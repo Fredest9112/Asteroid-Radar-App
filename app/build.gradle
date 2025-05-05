@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ar.asteroidradar"
+    namespace = "com.jar.jasteroidradar"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.ar.asteroidradar"
+        applicationId = "com.jar.jasteroidradar"
         minSdk = 24
         targetSdk = 34
         versionCode = 6
