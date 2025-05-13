@@ -46,7 +46,7 @@ fun HomeScreen(
         verticalArrangement = Arrangement.Top
     ) {
         Text(
-            text = "Asteroid Radar",
+            text = "JAsteroid Radar",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = 8.dp),
