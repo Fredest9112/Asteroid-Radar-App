@@ -26,6 +26,11 @@ object Constants {
     const val TODAY_TIME_STATE = "Today"
     const val WEEK_TIME_STATE = "Week"
     const val ALL_TIME_STATE = "All"
+    const val CLOSE_APPROACH_DATE = "Close approach date"
+    const val ABSOLUTE_MAGNITUDE = "Absolute magnitude"
+    const val ESTIMATED_DIAMETER = "Estimated diameter"
+    const val RELATIVE_VELOCITY = "Relative velocity"
+    const val DISTANCE_EARTH = "Distance from earth"
     val DATE_OPTIONS = listOf(TODAY_TIME_STATE,WEEK_TIME_STATE,ALL_TIME_STATE)
     val PICTURE_OF_DAY_MOCK = PictureOfDay(
         copyright = "anonymous",
@@ -42,6 +47,16 @@ object Constants {
         mediaType = "image",
         title = "?????????",
         url = ""
+    )
+    val ASTEROID_DB_MOCK = AsteroidDB(
+        id = 12345L,
+        codename = "codename",
+        closeApproachDate = "approachDate",
+        absoluteMagnitude = 0.0,
+        estimatedDiameter = 0.0,
+        relativeVelocity = 0.0,
+        distanceFromEarth = 0.0,
+        isPotentiallyHazardous = true
     )
     val ASTEROIDS_DB_MOCK = listOf(
         AsteroidDB(
