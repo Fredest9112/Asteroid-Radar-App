@@ -2,15 +2,16 @@ package com.jar.jasteroidradar.data.repoImpl
 
 import android.util.Log
 import com.jar.jasteroidradar.data.api.NetWork
-import com.jar.jasteroidradar.data.models.asDatabaseModel
 import com.jar.jasteroidradar.data.api.parseAsteroidsJsonResult
-import com.jar.jasteroidradar.utils.Date
+import com.jar.jasteroidradar.data.database.AsteroidDB
 import com.jar.jasteroidradar.data.database.AsteroidDatabase
+import com.jar.jasteroidradar.data.models.asDatabaseModel
 import com.jar.jasteroidradar.domain.exceptions.AsteroidResponse
 import com.jar.jasteroidradar.domain.exceptions.PictureResponse
 import com.jar.jasteroidradar.domain.repo.IAsteroidRepo
 import com.jar.jasteroidradar.utils.Constants.API_KEY
 import com.jar.jasteroidradar.utils.Constants.PICTURE_OF_DAY_REMOTE_MOCK
+import com.jar.jasteroidradar.utils.Date
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -37,31 +38,41 @@ class AsteroidRepo(private val database: AsteroidDatabase): IAsteroidRepo {
 
     override suspend fun getTodayAsteroids(): Flow<AsteroidResponse> {
         return database.asteroidDao.getTodayAsteroids(Date.currentTime)
-            .catch { exception ->
-                AsteroidResponse.AsteroidsError(exception = exception)
+            .map<List<AsteroidDB>, AsteroidResponse> { asteroids ->
+                AsteroidResponse.AsteroidsSuccess(asteroids)
             }
-            .map { asteroids ->
-                AsteroidResponse.AsteroidsSuccess(asteroids = asteroids)
+            .catch { exception ->
+                emit(AsteroidResponse.AsteroidsError(exception))
             }
     }
 
     override suspend fun getWeekAsteroids(): Flow<AsteroidResponse> {
         return database.asteroidDao.getWeekAsteroids(Date.oneWeekAgo, Date.currentTime)
-            .catch { exception ->
-                AsteroidResponse.AsteroidsError(exception = exception)
-            }
-            .map { asteroids ->
+            .map<List<AsteroidDB>, AsteroidResponse> { asteroids ->
                 AsteroidResponse.AsteroidsSuccess(asteroids = asteroids)
+            }
+            .catch { exception ->
+                emit(AsteroidResponse.AsteroidsError(exception = exception))
             }
     }
 
     override suspend fun getAllAsteroids(): Flow<AsteroidResponse> {
         return database.asteroidDao.getAsteroids()
+            .map<List<AsteroidDB>, AsteroidResponse> { asteroids ->
+                AsteroidResponse.AsteroidsSuccess(asteroids = asteroids)
+            }
             .catch { exception ->
                 AsteroidResponse.AsteroidsError(exception = exception)
             }
-            .map { asteroids ->
-                AsteroidResponse.AsteroidsSuccess(asteroids = asteroids)
+    }
+
+    override suspend fun getAsteroidById(id: Long): Flow<AsteroidResponse> {
+        return database.asteroidDao.getAsteroid(id = id)
+            .map<AsteroidDB, AsteroidResponse> { asteroid ->
+                AsteroidResponse.AsteroidSuccess(asteroid = asteroid)
+            }
+            .catch { exception ->
+                AsteroidResponse.AsteroidsError(exception = exception)
             }
     }
 

@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jar.jasteroidradar.R
 import com.jar.jasteroidradar.data.database.AsteroidDB
+import com.jar.jasteroidradar.domain.states.AsteroidDataState
 import com.jar.jasteroidradar.ui.components.asteroiddetails.AsteroidInfoDetail
 import com.jar.jasteroidradar.ui.theme.AsteroidRadarAppTheme
 import com.jar.jasteroidradar.utils.Constants.ABSOLUTE_MAGNITUDE
@@ -34,7 +35,8 @@ import com.jar.jasteroidradar.utils.Constants.RELATIVE_VELOCITY
 
 @Composable
 fun AsteroidDetails(
-    asteroidDB: AsteroidDB
+    asteroidDB: AsteroidDB,
+    asteroidDataState: AsteroidDataState
 ) {
     Column(
         modifier = Modifier
@@ -69,26 +71,31 @@ fun AsteroidDetails(
         AsteroidInfoDetail(
             titleText = CLOSE_APPROACH_DATE,
             infoText = asteroidDB.closeApproachDate,
-            hasHelpIcon = false
+            hasHelpIcon = false,
+            onAsteroidClicked = { }
         )
         AsteroidInfoDetail(
             titleText = ABSOLUTE_MAGNITUDE,
             infoText = asteroidDB.absoluteMagnitude.toString(),
+            onAsteroidClicked = { }
         )
         AsteroidInfoDetail(
             titleText = ESTIMATED_DIAMETER,
             infoText = asteroidDB.estimatedDiameter.toString(),
-            hasHelpIcon = false
+            hasHelpIcon = false,
+            onAsteroidClicked = { }
         )
         AsteroidInfoDetail(
             titleText = RELATIVE_VELOCITY,
             infoText = asteroidDB.relativeVelocity.toString(),
-            hasHelpIcon = false
+            hasHelpIcon = false,
+            onAsteroidClicked = { }
         )
         AsteroidInfoDetail(
             titleText = DISTANCE_EARTH,
             infoText = asteroidDB.distanceFromEarth.toString(),
-            hasHelpIcon = false
+            hasHelpIcon = false,
+            onAsteroidClicked = { }
         )
     }
 }
@@ -108,7 +115,8 @@ fun HomeScreenPreview(){
     AsteroidRadarAppTheme {
         Surface {
             AsteroidDetails(
-                asteroidDB = ASTEROID_DB_MOCK
+                asteroidDB = ASTEROID_DB_MOCK,
+                asteroidDataState = AsteroidDataState.COMPLETED
             )
         }
     }

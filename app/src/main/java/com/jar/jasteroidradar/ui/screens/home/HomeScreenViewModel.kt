@@ -22,8 +22,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroidRepo) :
-    ViewModel() {
+class HomeScreenViewModel @Inject constructor(
+    private val asteroidRepo: IAsteroidRepo
+) : ViewModel() {
 
     private var _asteroidDataState = MutableStateFlow(value = AsteroidDataState.LOADING)
     val asteroidDataState : StateFlow<AsteroidDataState> = _asteroidDataState
@@ -125,6 +126,7 @@ class HomeScreenViewModel @Inject constructor(private val asteroidRepo: IAsteroi
                 _asteroidDataState.value = AsteroidDataState.ERROR
                 _shouldShowHomeError.value = true to data.exception.message.toString()
             }
+            else -> Unit
         }
     }
 }

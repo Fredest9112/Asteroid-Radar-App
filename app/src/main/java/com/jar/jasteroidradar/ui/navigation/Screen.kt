@@ -14,7 +14,7 @@ sealed class Screen(val route: String = ""){
         }
     }
     object AsteroidDetails: Screen(route = "$ASTEROID_DETAILED_KEY/{asteroidId}") {
-        fun asteroidId(asteroidId: Int): String {
+        fun asteroidId(asteroidId: Long): String {
             return "$ASTEROID_DETAILED_KEY/$asteroidId"
         }
     }

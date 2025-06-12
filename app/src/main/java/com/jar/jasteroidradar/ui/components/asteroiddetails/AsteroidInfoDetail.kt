@@ -2,6 +2,7 @@ package com.jar.jasteroidradar.ui.components.asteroiddetails
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ fun AsteroidInfoDetail(
     infoText: String,
     asteroidDB: AsteroidDB? = null,
     hasHelpIcon: Boolean = true,
+    onAsteroidClicked: (AsteroidDB) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -40,6 +42,9 @@ fun AsteroidInfoDetail(
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer
             )
+            .clickable {
+                asteroidDB?.let { onAsteroidClicked(it) }
+            }
     ) {
         Column (
             horizontalAlignment = Alignment.Start,
@@ -111,7 +116,8 @@ fun HomeScreenPreview(){
         Surface {
             AsteroidInfoDetail(
                 titleText = "Close date approach",
-                infoText = "DD-MM-YY"
+                infoText = "DD-MM-YY",
+                onAsteroidClicked = {  }
             )
         }
     }

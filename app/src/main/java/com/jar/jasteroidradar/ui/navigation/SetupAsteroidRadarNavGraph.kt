@@ -13,12 +13,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.jar.jasteroidradar.domain.states.OnBoardingState
 import com.jar.jasteroidradar.ui.components.error.ToastError
+import com.jar.jasteroidradar.ui.screens.asteroiddetails.AsteroidDetails
+import com.jar.jasteroidradar.ui.screens.asteroiddetails.AsteroidDetailsViewModel
 import com.jar.jasteroidradar.ui.screens.detailedImage.AsteroidDetailedImage
 import com.jar.jasteroidradar.ui.screens.home.HomeScreen
 import com.jar.jasteroidradar.ui.screens.home.HomeScreenViewModel
 import com.jar.jasteroidradar.ui.screens.splash.SplashScreen
 import com.jar.jasteroidradar.ui.screens.welcome.WelcomeScreen
 import com.jar.jasteroidradar.ui.screens.welcome.WelcomeViewModel
+import com.jar.jasteroidradar.utils.Constants.ASTEROID_DB_MOCK
 import com.jar.jasteroidradar.utils.Constants.ASTEROID_ID_KEY
 import com.jar.jasteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 
@@ -79,6 +82,13 @@ fun SetupAsteroidRadarNavGraph(
                             explanation = chosenPictureOfDay.explanation
                         )
                     )
+                },
+                onAsteroidClicked = { chosenAsteroid ->
+                    navHostController.navigate(
+                        Screen.AsteroidDetails.asteroidId(
+                            asteroidId = chosenAsteroid.id
+                        )
+                    )
                 }
             )
         }
@@ -87,8 +97,18 @@ fun SetupAsteroidRadarNavGraph(
             arguments = listOf(navArgument(name = ASTEROID_ID_KEY) {
                 type = NavType.StringType
             })
-        ) {
-
+        ) { backStackEntry ->
+            val asteroidId = backStackEntry.arguments?.getString("asteroidId").let {
+                it?.toLong() ?: ASTEROID_DB_MOCK.id
+            }
+            val asteroidDetailsViewModel: AsteroidDetailsViewModel = hiltViewModel()
+            asteroidDetailsViewModel.getAsteroidById(asteroidId)
+            val asteroidDataState by asteroidDetailsViewModel.asteroidDataState.collectAsState()
+            val asteroid by asteroidDetailsViewModel.asteroid.collectAsState()
+            AsteroidDetails(
+                asteroidDB = asteroid,
+                asteroidDataState = asteroidDataState
+            )
         }
         composable(
             route = Screen.AsteroidDetailImage.route,

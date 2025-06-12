@@ -13,6 +13,9 @@ interface AsteroidDao {
     @Query("SELECT * FROM AsteroidDB")
     fun getAsteroids(): Flow<List<AsteroidDB>>
 
+    @Query("SELECT * FROM AsteroidDB WHERE id IN (:id)")
+    fun getAsteroid(id: Long): Flow<AsteroidDB>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg asteroids: AsteroidDB)
 

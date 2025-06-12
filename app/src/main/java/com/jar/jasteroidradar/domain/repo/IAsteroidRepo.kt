@@ -11,4 +11,5 @@ interface IAsteroidRepo {
     suspend fun getAllAsteroids(): Flow<AsteroidResponse>
     suspend fun deleteAsteroids()
     suspend fun refreshPicture(): PictureResponse
+    suspend fun getAsteroidById(id: Long): Flow<AsteroidResponse>
 }

@@ -39,7 +39,8 @@ fun HomeScreen(
     selectedOption: AsteroidTimeState,
     onOptionSelected: (String) -> Unit,
     onErrorMessageShown: () -> Unit,
-    onImageClicked: (PictureOfDay) -> Unit
+    onImageClicked: (PictureOfDay) -> Unit,
+    onAsteroidClicked: (AsteroidDB) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -66,7 +67,8 @@ fun HomeScreen(
         }
         AsteroidsHolder(
             asteroids = asteroids,
-            asteroidDataState = asteroidDataState
+            asteroidDataState = asteroidDataState,
+            onAsteroidClicked = onAsteroidClicked
         )
     }
     ToastError(
@@ -99,7 +101,8 @@ fun HomeScreenPreview(){
                 selectedOption = AsteroidTimeState.TODAY,
                 onOptionSelected = { },
                 onErrorMessageShown = { },
-                onImageClicked = { }
+                onImageClicked = { },
+                onAsteroidClicked = { }
             )
         }
     }

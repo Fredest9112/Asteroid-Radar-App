@@ -15,12 +15,12 @@ import com.jar.jasteroidradar.utils.Constants.ASTEROIDS_DB_MOCK
 @Composable
 fun AsteroidsHolder(
     asteroids: List<AsteroidDB>,
-    asteroidDataState: AsteroidDataState
+    asteroidDataState: AsteroidDataState,
+    onAsteroidClicked: (AsteroidDB) -> Unit
 ) {
     LazyColumn {
         items(
-            items = asteroids,
-            key = { it.id }
+            items = asteroids
         ) { asteroid ->
             when (asteroidDataState) {
                 AsteroidDataState.LOADING -> {
@@ -31,7 +31,8 @@ fun AsteroidsHolder(
                         titleText = asteroid.codename,
                         infoText = asteroid.closeApproachDate,
                         hasHelpIcon = false,
-                        asteroidDB = asteroid
+                        asteroidDB = asteroid,
+                        onAsteroidClicked = onAsteroidClicked
                     )
                 }
             }
@@ -55,7 +56,8 @@ fun AsteroidsHolderPreview() {
         Surface {
             AsteroidsHolder(
                 asteroids = ASTEROIDS_DB_MOCK,
-                asteroidDataState = AsteroidDataState.COMPLETED
+                asteroidDataState = AsteroidDataState.COMPLETED,
+                onAsteroidClicked = { }
             )
         }
     }
