@@ -25,6 +25,7 @@ import com.jar.jasteroidradar.R
 import com.jar.jasteroidradar.data.database.AsteroidDB
 import com.jar.jasteroidradar.domain.states.AsteroidDataState
 import com.jar.jasteroidradar.ui.components.asteroiddetails.AsteroidInfoDetail
+import com.jar.jasteroidradar.ui.components.home.LoadingIndicator
 import com.jar.jasteroidradar.ui.theme.AsteroidRadarAppTheme
 import com.jar.jasteroidradar.utils.Constants.ABSOLUTE_MAGNITUDE
 import com.jar.jasteroidradar.utils.Constants.ASTEROID_DB_MOCK
@@ -55,48 +56,62 @@ fun AsteroidDetails(
                 .height(220.dp)
                 .clip(RoundedCornerShape(10.dp))
         ) {
-            Image(
-                painter = if (asteroidDB.isPotentiallyHazardous) {
-                    painterResource(id = R.drawable.asteroid_hazardous)
-                } else {
-                    painterResource(id = R.drawable.asteroid_safe)
+            when(asteroidDataState) {
+                AsteroidDataState.LOADING -> {
+                    LoadingIndicator()
+                }
+                else -> {
+                    Image(
+                        painter = if (asteroidDB.isPotentiallyHazardous) {
+                            painterResource(id = R.drawable.asteroid_hazardous)
+                        } else {
+                            painterResource(id = R.drawable.asteroid_safe)
 
-                },
-                contentDescription = "Hazardous asteroid",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
+                        },
+                        contentDescription = "Hazardous asteroid",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
         }
         Spacer(modifier = Modifier.padding(all = 5.dp))
-        AsteroidInfoDetail(
-            titleText = CLOSE_APPROACH_DATE,
-            infoText = asteroidDB.closeApproachDate,
-            hasHelpIcon = false,
-            onAsteroidClicked = { }
-        )
-        AsteroidInfoDetail(
-            titleText = ABSOLUTE_MAGNITUDE,
-            infoText = asteroidDB.absoluteMagnitude.toString(),
-            onAsteroidClicked = { }
-        )
-        AsteroidInfoDetail(
-            titleText = ESTIMATED_DIAMETER,
-            infoText = asteroidDB.estimatedDiameter.toString(),
-            hasHelpIcon = false,
-            onAsteroidClicked = { }
-        )
-        AsteroidInfoDetail(
-            titleText = RELATIVE_VELOCITY,
-            infoText = asteroidDB.relativeVelocity.toString(),
-            hasHelpIcon = false,
-            onAsteroidClicked = { }
-        )
-        AsteroidInfoDetail(
-            titleText = DISTANCE_EARTH,
-            infoText = asteroidDB.distanceFromEarth.toString(),
-            hasHelpIcon = false,
-            onAsteroidClicked = { }
-        )
+        when(asteroidDataState) {
+            AsteroidDataState.LOADING -> {
+                LoadingIndicator()
+            }
+            else -> {
+                AsteroidInfoDetail(
+                    titleText = CLOSE_APPROACH_DATE,
+                    infoText = asteroidDB.closeApproachDate,
+                    hasHelpIcon = false,
+                    onAsteroidClicked = { }
+                )
+                AsteroidInfoDetail(
+                    titleText = ABSOLUTE_MAGNITUDE,
+                    infoText = asteroidDB.absoluteMagnitude.toString(),
+                    onAsteroidClicked = { }
+                )
+                AsteroidInfoDetail(
+                    titleText = ESTIMATED_DIAMETER,
+                    infoText = asteroidDB.estimatedDiameter.toString(),
+                    hasHelpIcon = false,
+                    onAsteroidClicked = { }
+                )
+                AsteroidInfoDetail(
+                    titleText = RELATIVE_VELOCITY,
+                    infoText = asteroidDB.relativeVelocity.toString(),
+                    hasHelpIcon = false,
+                    onAsteroidClicked = { }
+                )
+                AsteroidInfoDetail(
+                    titleText = DISTANCE_EARTH,
+                    infoText = asteroidDB.distanceFromEarth.toString(),
+                    hasHelpIcon = false,
+                    onAsteroidClicked = { }
+                )
+            }
+        }
     }
 }
 
