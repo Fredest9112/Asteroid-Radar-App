@@ -1,21 +1,25 @@
 package com.jar.jasteroidradar.ui.navigation
 
-import android.net.Uri
-import com.jar.jasteroidradar.utils.Constants.ASTEROID_DETAILED_IMAGE_KEY
-import com.jar.jasteroidradar.utils.Constants.ASTEROID_DETAILED_KEY
+import kotlinx.serialization.Serializable
 
-sealed class Screen(val route: String = ""){
-    object Splash: Screen(route = "splash_screen")
-    object Welcome: Screen(route = "welcome_screen")
-    object Home: Screen(route = "home_screen")
-    object AsteroidDetailImage: Screen(route = "$ASTEROID_DETAILED_IMAGE_KEY/{url}/{explanation}") {
-        fun asteroidDetailImage(url: String, explanation: String): String {
-            return "$ASTEROID_DETAILED_IMAGE_KEY/${Uri.encode(url)}/${Uri.encode(explanation)}"
-        }
-    }
-    object AsteroidDetails: Screen(route = "$ASTEROID_DETAILED_KEY/{asteroidId}") {
-        fun asteroidId(asteroidId: Long): String {
-            return "$ASTEROID_DETAILED_KEY/$asteroidId"
-        }
-    }
+sealed class Screen {
+    @Serializable
+    object Splash : Screen()
+
+    @Serializable
+    object Welcome : Screen()
+
+    @Serializable
+    object Home : Screen()
+
+    @Serializable
+    data class AsteroidDetailImage(
+        val url: String?,
+        val explanation: String?
+    ) : Screen()
+
+    @Serializable
+    data class AsteroidDetails(
+        val asteroidId: Long?
+    ) : Screen()
 }

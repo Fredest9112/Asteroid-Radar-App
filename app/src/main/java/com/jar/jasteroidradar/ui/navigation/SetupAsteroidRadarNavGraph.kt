@@ -1,16 +1,14 @@
 package com.jar.jasteroidradar.ui.navigation
 
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.jar.jasteroidradar.domain.states.OnBoardingState
 import com.jar.jasteroidradar.ui.components.error.ToastError
 import com.jar.jasteroidradar.ui.screens.asteroiddetails.AsteroidDetails
@@ -21,8 +19,6 @@ import com.jar.jasteroidradar.ui.screens.home.HomeScreenViewModel
 import com.jar.jasteroidradar.ui.screens.splash.SplashScreen
 import com.jar.jasteroidradar.ui.screens.welcome.WelcomeScreen
 import com.jar.jasteroidradar.ui.screens.welcome.WelcomeViewModel
-import com.jar.jasteroidradar.utils.Constants.ASTEROID_DB_MOCK
-import com.jar.jasteroidradar.utils.Constants.ASTEROID_ID_KEY
 import com.jar.jasteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 
 @Composable
@@ -45,20 +41,20 @@ fun SetupAsteroidRadarNavGraph(
         navController = navHostController,
         startDestination = startDestination
     ) {
-        composable(route = Screen.Splash.route) {
+        composable<Screen.Splash> {
             SplashScreen()
         }
-        composable(route = Screen.Welcome.route) {
+        composable<Screen.Welcome> {
             val welcomeViewModel: WelcomeViewModel = hiltViewModel()
             WelcomeScreen(
                 onNavigateToHomeScreen = {
                     navHostController.popBackStack()
                     welcomeViewModel.saveOnBoardingState(complete = true)
-                    navHostController.navigate(Screen.Home.route)
+                    navHostController.navigate(Screen.Home)
                 }
             )
         }
-        composable(route = Screen.Home.route) {
+        composable<Screen.Home> {
             val homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
             val asteroids by homeScreenViewModel.asteroids.collectAsState()
             val asteroidDataState by homeScreenViewModel.asteroidDataState.collectAsState()
@@ -77,7 +73,7 @@ fun SetupAsteroidRadarNavGraph(
                 onErrorMessageShown = { homeScreenViewModel.errorShown() },
                 onImageClicked = { chosenPictureOfDay ->
                     navHostController.navigate(
-                        Screen.AsteroidDetailImage.asteroidDetailImage(
+                        Screen.AsteroidDetailImage(
                             url = chosenPictureOfDay.url,
                             explanation = chosenPictureOfDay.explanation
                         )
@@ -85,24 +81,18 @@ fun SetupAsteroidRadarNavGraph(
                 },
                 onAsteroidClicked = { chosenAsteroid ->
                     navHostController.navigate(
-                        Screen.AsteroidDetails.asteroidId(
+                        Screen.AsteroidDetails(
                             asteroidId = chosenAsteroid.id
                         )
                     )
                 }
             )
         }
-        composable(
-            route = Screen.AsteroidDetails.route,
-            arguments = listOf(navArgument(name = ASTEROID_ID_KEY) {
-                type = NavType.StringType
-            })
-        ) { backStackEntry ->
-            val asteroidId = backStackEntry.arguments?.getString("asteroidId").let {
-                it?.toLong() ?: ASTEROID_DB_MOCK.id
-            }
+        composable<Screen.AsteroidDetails> { backStackEntry ->
+            val args = backStackEntry.toRoute<Screen.AsteroidDetails>()
+            val asteroidId = args.asteroidId
             val asteroidDetailsViewModel: AsteroidDetailsViewModel = hiltViewModel()
-            asteroidDetailsViewModel.getAsteroidById(asteroidId)
+            asteroidId?.let { asteroidDetailsViewModel.getAsteroidById(it) }
             val asteroidDataState by asteroidDetailsViewModel.asteroidDataState.collectAsState()
             val asteroid by asteroidDetailsViewModel.asteroid.collectAsState()
             AsteroidDetails(
@@ -110,21 +100,11 @@ fun SetupAsteroidRadarNavGraph(
                 asteroidDataState = asteroidDataState
             )
         }
-        composable(
-            route = Screen.AsteroidDetailImage.route,
-            arguments = listOf(
-                navArgument(name = "url") { type = NavType.StringType },
-                navArgument(name = "explanation") { type = NavType.StringType }
-            )
-        ) { backStackEntry ->
-            val urlPicture = backStackEntry.arguments?.getString("url").let { Uri.decode(it) }
-                ?: PICTURE_OF_DAY_MOCK.url
-            val explanationPicture =
-                backStackEntry.arguments?.getString("explanation").let { Uri.decode(it) }
-                    ?: PICTURE_OF_DAY_MOCK.explanation
+        composable<Screen.AsteroidDetailImage> { backStackEntry ->
+            val args = backStackEntry.toRoute<Screen.AsteroidDetailImage>()
             AsteroidDetailedImage(
-                urlPicture = urlPicture,
-                explanationPicture = explanationPicture
+                urlPicture = args.url ?: PICTURE_OF_DAY_MOCK.url,
+                explanationPicture = args.explanation ?: PICTURE_OF_DAY_MOCK.explanation
             )
         }
     }

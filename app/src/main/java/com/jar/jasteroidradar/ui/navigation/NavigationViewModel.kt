@@ -19,8 +19,8 @@ class NavigationViewModel @Inject constructor(
     private val _onBoardingState = MutableStateFlow(OnBoardingState.LOADING)
     val onBoardingState: StateFlow<OnBoardingState> = _onBoardingState
 
-    private val _startDestination = MutableStateFlow(Screen.Splash.route)
-    val startDestination: StateFlow<String> = _startDestination
+    private val _startDestination = MutableStateFlow<Screen>(Screen.Splash)
+    val startDestination: StateFlow<Screen> = _startDestination
 
     private val _shouldShowError = MutableStateFlow(false to "")
     val shouldShowError: StateFlow<Pair<Boolean, String>> = _shouldShowError
@@ -30,15 +30,15 @@ class NavigationViewModel @Inject constructor(
             when (val datastoreResponse = dataStoreRepo.readOnBoardingState().first()) {
                 is DatastoreResponse.Success -> {
                     if(datastoreResponse.isOnboardingComplete.first()) {
-                        _startDestination.value = Screen.Home.route
+                        _startDestination.value = Screen.Home
                         _onBoardingState.value = OnBoardingState.COMPLETED
                     } else {
-                        _startDestination.value = Screen.Welcome.route
+                        _startDestination.value = Screen.Welcome
                         _onBoardingState.value = OnBoardingState.NOT_COMPLETED
                     }
                 }
                 is DatastoreResponse.Error -> {
-                    _startDestination.value = Screen.Home.route
+                    _startDestination.value = Screen.Home
                     _onBoardingState.value = OnBoardingState.NOT_COMPLETED
                     _shouldShowError.value = true to datastoreResponse.exception.message.toString()
                 }
