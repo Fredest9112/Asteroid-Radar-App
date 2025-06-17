@@ -2,6 +2,7 @@ package com.jar.jasteroidradar.di
 
 import android.content.Context
 import androidx.room.Room
+import com.jar.jasteroidradar.data.database.AsteroidDao
 import com.jar.jasteroidradar.data.database.AsteroidDatabase
 import com.jar.jasteroidradar.utils.Constants.ASTEROID_DB_NAME
 import dagger.Module
@@ -23,5 +24,10 @@ object AsteroidDBModule {
             klass = AsteroidDatabase::class.java,
             name = ASTEROID_DB_NAME
         ).build()
+    }
+
+    @Provides
+    fun provideAsteroidDao(database: AsteroidDatabase): AsteroidDao {
+        return database.asteroidDao
     }
 }
