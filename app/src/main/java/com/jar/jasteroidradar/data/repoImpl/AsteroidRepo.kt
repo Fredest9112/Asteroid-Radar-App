@@ -41,7 +41,6 @@ class AsteroidRepo @Inject constructor(
                 Log.i("error refreshing asteroids", "${e.message}")
             }
         }
-
     }
 
     override fun getTodayAsteroids(): Flow<Result<List<AsteroidDB>>> {

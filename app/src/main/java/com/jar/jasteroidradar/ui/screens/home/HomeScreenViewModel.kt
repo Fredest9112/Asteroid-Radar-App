@@ -50,8 +50,9 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     private fun getAsteroidsOfTheDay() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
+                asteroidRepo.refreshAsteroids()
                 asteroidRepo.getTodayAsteroids().collect {
                     fetchAsteroidData(it)
                 }
