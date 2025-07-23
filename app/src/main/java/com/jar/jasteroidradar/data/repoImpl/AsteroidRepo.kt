@@ -5,9 +5,9 @@ import com.jar.jasteroidradar.data.api.AsteroidService
 import com.jar.jasteroidradar.data.api.parseAsteroidsJsonResult
 import com.jar.jasteroidradar.data.database.AsteroidDB
 import com.jar.jasteroidradar.data.database.AsteroidDao
+import com.jar.jasteroidradar.data.models.PictureOfDayRemote
 import com.jar.jasteroidradar.data.models.asDatabaseModel
-import com.jar.jasteroidradar.domain.exceptions.AsteroidResponse
-import com.jar.jasteroidradar.domain.exceptions.PictureResponse
+import com.jar.jasteroidradar.domain.exceptions.Result
 import com.jar.jasteroidradar.domain.repo.IAsteroidRepo
 import com.jar.jasteroidradar.utils.Constants.API_KEY
 import com.jar.jasteroidradar.utils.Constants.PICTURE_OF_DAY_REMOTE_MOCK
@@ -15,6 +15,7 @@ import com.jar.jasteroidradar.utils.Date
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -40,49 +41,34 @@ class AsteroidRepo @Inject constructor(
                 Log.i("error refreshing asteroids", "${e.message}")
             }
         }
+
     }
 
-    override suspend fun getTodayAsteroids(): Flow<AsteroidResponse> {
+    override fun getTodayAsteroids(): Flow<Result<List<AsteroidDB>>> {
         return asteroidDao.getTodayAsteroids(Date.currentTime)
-            .map<List<AsteroidDB>, AsteroidResponse> { asteroids ->
-                AsteroidResponse.AsteroidsSuccess(asteroids)
-            }
-            .catch { exception ->
-                emit(AsteroidResponse.AsteroidsError(exception))
-            }
+            .map { Result.Success(data = it) }
+            .catch { Result.Error("Database error retrieving local data: ${it.localizedMessage}", null) }
     }
 
-    override suspend fun getWeekAsteroids(): Flow<AsteroidResponse> {
+    override fun getWeekAsteroids(): Flow<Result<List<AsteroidDB>>> {
         return asteroidDao.getWeekAsteroids(Date.oneWeekAgo, Date.currentTime)
-            .map<List<AsteroidDB>, AsteroidResponse> { asteroids ->
-                AsteroidResponse.AsteroidsSuccess(asteroids = asteroids)
-            }
-            .catch { exception ->
-                emit(AsteroidResponse.AsteroidsError(exception = exception))
-            }
+            .map { Result.Success(data = it) }
+            .catch { Result.Error("Database error retrieving local data: ${it.localizedMessage}", null) }
     }
 
-    override suspend fun getAllAsteroids(): Flow<AsteroidResponse> {
+    override fun getAllAsteroids(): Flow<Result<List<AsteroidDB>>> {
         return asteroidDao.getAsteroids()
-            .map<List<AsteroidDB>, AsteroidResponse> { asteroids ->
-                AsteroidResponse.AsteroidsSuccess(asteroids = asteroids)
-            }
-            .catch { exception ->
-                AsteroidResponse.AsteroidsError(exception = exception)
-            }
+            .map { Result.Success(data = it) }
+            .catch { Result.Error("Database error retrieving local data: ${it.localizedMessage}", null) }
     }
 
-    override suspend fun getAsteroidById(id: Long): Flow<AsteroidResponse> {
+    override fun getAsteroidById(id: Long): Flow<Result<AsteroidDB>> {
         return asteroidDao.getAsteroid(id = id)
-            .map<AsteroidDB, AsteroidResponse> { asteroid ->
-                AsteroidResponse.AsteroidSuccess(asteroid = asteroid)
-            }
-            .catch { exception ->
-                AsteroidResponse.AsteroidsError(exception = exception)
-            }
+            .map { Result.Success(data = it) }
+            .catch { Result.Error("Database error retrieving local data: ${it.localizedMessage}", null) }
     }
 
-    override suspend fun deleteAsteroids(){
+    override suspend fun deleteAsteroids() {
         withContext(Dispatchers.IO){
             try {
                 asteroidDao.deleteOldAsteroids(Date.twoWeeksAgo, Date.oneWeekAgo)
@@ -92,16 +78,16 @@ class AsteroidRepo @Inject constructor(
         }
     }
 
-    override suspend fun refreshPicture(): PictureResponse {
-        var pictureOfDayRemote = PICTURE_OF_DAY_REMOTE_MOCK
-        return withContext(Dispatchers.IO) {
-            try {
+    override fun refreshPicture(): Flow<Result<PictureOfDayRemote>> {
+        return flow {
+            val result: Result<PictureOfDayRemote> = try {
                 val response = asteroidService.getPictureOfDayAsync().await()
-                pictureOfDayRemote = response.body() ?: pictureOfDayRemote
-                PictureResponse.PictureSuccess(pictureOfDayRemote = pictureOfDayRemote)
+                val pictureOfDayRemote = response.body() ?: PICTURE_OF_DAY_REMOTE_MOCK
+                Result.Success(data = pictureOfDayRemote)
             } catch (exception: Exception) {
-                PictureResponse.PictureError(exception)
+                Result.Error("Error receiving pictures: ${exception.localizedMessage}", null)
             }
+            emit(result)
         }
     }
 }

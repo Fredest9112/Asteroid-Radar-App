@@ -1,15 +1,16 @@
 package com.jar.jasteroidradar.domain.repo
 
-import com.jar.jasteroidradar.domain.exceptions.AsteroidResponse
-import com.jar.jasteroidradar.domain.exceptions.PictureResponse
+import com.jar.jasteroidradar.data.database.AsteroidDB
+import com.jar.jasteroidradar.data.models.PictureOfDayRemote
+import com.jar.jasteroidradar.domain.exceptions.Result
 import kotlinx.coroutines.flow.Flow
 
 interface IAsteroidRepo {
     suspend fun refreshAsteroids()
-    suspend fun getTodayAsteroids(): Flow<AsteroidResponse>
-    suspend fun getWeekAsteroids(): Flow<AsteroidResponse>
-    suspend fun getAllAsteroids(): Flow<AsteroidResponse>
+    fun getTodayAsteroids(): Flow<Result<List<AsteroidDB>>>
+    fun getWeekAsteroids(): Flow<Result<List<AsteroidDB>>>
+    fun getAllAsteroids(): Flow<Result<List<AsteroidDB>>>
     suspend fun deleteAsteroids()
-    suspend fun refreshPicture(): PictureResponse
-    suspend fun getAsteroidById(id: Long): Flow<AsteroidResponse>
+    fun refreshPicture(): Flow<Result<PictureOfDayRemote>>
+    fun getAsteroidById(id: Long): Flow<Result<AsteroidDB>>
 }

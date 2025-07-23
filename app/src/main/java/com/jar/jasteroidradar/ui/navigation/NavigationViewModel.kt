@@ -2,7 +2,7 @@ package com.jar.jasteroidradar.ui.navigation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jar.jasteroidradar.domain.exceptions.DatastoreResponse
+import com.jar.jasteroidradar.domain.exceptions.Result
 import com.jar.jasteroidradar.domain.repo.IDataStoreRepo
 import com.jar.jasteroidradar.domain.states.OnBoardingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,9 +27,9 @@ class NavigationViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            when (val datastoreResponse = dataStoreRepo.readOnBoardingState().first()) {
-                is DatastoreResponse.Success -> {
-                    if(datastoreResponse.isOnboardingComplete.first()) {
+            when(val dataStoreResponse = dataStoreRepo.readOnBoardingState().first()) {
+                is Result.Success -> {
+                    if (dataStoreResponse.data == true) {
                         _startDestination.value = Screen.Home
                         _onBoardingState.value = OnBoardingState.COMPLETED
                     } else {
@@ -37,10 +37,10 @@ class NavigationViewModel @Inject constructor(
                         _onBoardingState.value = OnBoardingState.NOT_COMPLETED
                     }
                 }
-                is DatastoreResponse.Error -> {
+                is Result.Error -> {
                     _startDestination.value = Screen.Home
                     _onBoardingState.value = OnBoardingState.NOT_COMPLETED
-                    _shouldShowError.value = true to datastoreResponse.exception.message.toString()
+                    _shouldShowError.value = true to dataStoreResponse.message.toString()
                 }
             }
         }

@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.jar.jasteroidradar.data.database.AsteroidDB
 import com.jar.jasteroidradar.domain.entities.PictureOfDay
 import com.jar.jasteroidradar.domain.entities.asDomainEntity
-import com.jar.jasteroidradar.domain.exceptions.AsteroidResponse
-import com.jar.jasteroidradar.domain.exceptions.PictureResponse
+import com.jar.jasteroidradar.domain.exceptions.Result
 import com.jar.jasteroidradar.domain.repo.IAsteroidRepo
 import com.jar.jasteroidradar.domain.states.AsteroidDataState
 import com.jar.jasteroidradar.domain.states.AsteroidTimeState
@@ -15,7 +14,6 @@ import com.jar.jasteroidradar.utils.Constants.ASTEROIDS_MOCK
 import com.jar.jasteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -52,14 +50,10 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     private fun getAsteroidsOfTheDay() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             try {
-                val deferredAsteroids = async { asteroidRepo.refreshAsteroids() }
-                deferredAsteroids.await()
-                if(deferredAsteroids.isCompleted) {
-                    asteroidRepo.getTodayAsteroids().collect {
-                        fetchAsteroidData(it)
-                    }
+                asteroidRepo.getTodayAsteroids().collect {
+                    fetchAsteroidData(it)
                 }
             } catch (exception: Exception) {
                 _shouldShowHomeError.value = true to exception.message.toString()
@@ -68,17 +62,18 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     private fun getPictureOfTheDay() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             try {
-                val deferredPicture = async { asteroidRepo.refreshPicture() }
-                when (val pictureResponse = deferredPicture.await()) {
-                    is PictureResponse.PictureSuccess -> {
-                        _pictureOfDay.value = pictureResponse.pictureOfDayRemote.asDomainEntity()
-                        _pictureState.value = PictureState.COMPLETED
-                    }
-                    is PictureResponse.PictureError -> {
-                        _pictureState.value = PictureState.ERROR
-                        _shouldShowHomeError.value = true to pictureResponse.exception.message.toString()
+                asteroidRepo.refreshPicture().collect { pictureResponse ->
+                    when(pictureResponse) {
+                        is Result.Success -> {
+                            _pictureOfDay.value = pictureResponse.data?.asDomainEntity() ?: PICTURE_OF_DAY_MOCK
+                            _pictureState.value = PictureState.COMPLETED
+                        }
+                        is Result.Error -> {
+                            _pictureState.value = PictureState.ERROR
+                            _shouldShowHomeError.value = true to pictureResponse.message.toString()
+                        }
                     }
                 }
             } catch (exception: Exception) {
@@ -94,17 +89,17 @@ class HomeScreenViewModel @Inject constructor(
             when(_selectedOption.value){
                 AsteroidTimeState.TODAY -> {
                     asteroidRepo.getTodayAsteroids().collect {
-                        fetchAsteroidData(data = it)
+                        fetchAsteroidData(response = it)
                     }
                 }
                 AsteroidTimeState.WEEK -> {
                     asteroidRepo.getWeekAsteroids().collect {
-                        fetchAsteroidData(data = it)
+                        fetchAsteroidData(response = it)
                     }
                 }
                 else -> {
                     asteroidRepo.getAllAsteroids().collect {
-                        fetchAsteroidData(data = it)
+                        fetchAsteroidData(response = it)
                     }
                 }
             }
@@ -115,18 +110,17 @@ class HomeScreenViewModel @Inject constructor(
         _shouldShowHomeError.value = false to ""
     }
 
-    private fun fetchAsteroidData(data: AsteroidResponse) {
-        when (data) {
-            is AsteroidResponse.AsteroidsSuccess -> {
+    private fun fetchAsteroidData(response: Result<List<AsteroidDB>>) {
+        when (response) {
+            is Result.Success -> {
                 _asteroidDataState.value = AsteroidDataState.COMPLETED
-                _asteroids.value = data.asteroids.ifEmpty { ASTEROIDS_MOCK.asDomainEntity() }
+                _asteroids.value = if(response.data.isNullOrEmpty()) ASTEROIDS_MOCK.asDomainEntity() else response.data
             }
 
-            is AsteroidResponse.AsteroidsError -> {
+            is Result.Error -> {
                 _asteroidDataState.value = AsteroidDataState.ERROR
-                _shouldShowHomeError.value = true to data.exception.message.toString()
+                _shouldShowHomeError.value = true to response.message.toString()
             }
-            else -> Unit
         }
     }
 }

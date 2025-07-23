@@ -1,20 +1,17 @@
 package com.jar.jasteroidradar.data.repoImpl
 
 import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.jar.jasteroidradar.domain.exceptions.DatastoreResponse
+import com.jar.jasteroidradar.domain.exceptions.Result
 import com.jar.jasteroidradar.domain.repo.IDataStoreRepo
 import com.jar.jasteroidradar.utils.Constants.DATA_STORE_ONBOARDING_STATUS
 import com.jar.jasteroidradar.utils.Constants.DATA_STORE_PREFS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class DataStoreRepo(context: Context) : IDataStoreRepo {
@@ -27,28 +24,20 @@ class DataStoreRepo(context: Context) : IDataStoreRepo {
 
     private val dataStore = context.dataStore
 
-    override suspend fun saveOnBoardingState(completed: Boolean): Result<Unit> {
-        return try {
+    override suspend fun saveOnBoardingState(completed: Boolean) {
+        try {
             dataStore.edit { preference ->
                 preference[PreferencesKey.onBoardingKey] = completed
             }
-            Result.success(Unit)
+            Result.Success(data = Unit)
         } catch (exception: Exception) {
-            Log.e("error on saveOnBoardingState","${exception.printStackTrace()}")
-            Result.failure(exception)
+            Result.Error("error on saveOnBoardingState: ${exception.localizedMessage}", null)
         }
     }
 
-    override fun readOnBoardingState(): Flow<DatastoreResponse> {
+    override fun readOnBoardingState(): Flow<Result<Boolean>> {
         return dataStore.data
-            .catch { exception ->
-                emit(emptyPreferences())
-                Log.e("error on","readOnBoardingState")
-                DatastoreResponse.Error(exception)
-            }
-            .map { preferences ->
-                val onBoardingState = preferences[PreferencesKey.onBoardingKey] ?: false
-                DatastoreResponse.Success(isOnboardingComplete = flowOf(onBoardingState))
-            }
+            .map { Result.Success(data = it[PreferencesKey.onBoardingKey] ?: false) }
+            .catch { Result.Error("error on saveOnBoardingState: ${it.localizedMessage}", null) }
     }
 }
