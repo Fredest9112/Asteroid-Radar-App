@@ -1,0 +1,116 @@
+[versions]
+# SDK / Compiler
+jvmTarget = "17"
+kotlinCompilerExtension = "1.4.6"
+
+# Plugins
+agp = "8.2.0"
+kotlin = "1.8.20"
+ksp = "1.8.20-1.0.11"
+serialization = "1.8.20"
+hilt = "2.48"
+googleServices = "4.3.15"
+firebaseCrashlytics = "2.9.9"
+
+# AndroidX
+coreKtx = "1.12.0"
+lifecycle = "2.6.2"
+activityCompose = "1.8.2"
+composeBom = "2024.02.00"
+navigation = "2.8.0"
+room = "2.5.2"
+splash = "1.0.1"
+hiltNavigation = "1.1.0"
+
+# Compose Compiler/Runtime
+lifecycleRuntimeCompose = "2.6.2"
+
+# Firebase
+firebaseBom = "32.7.4"
+
+# Testing
+junit4 = "4.13.2"
+junitExt = "1.1.5"
+espresso = "3.5.1"
+
+# Coil
+coil = "2.3.0"
+
+# Retrofit / Moshi / OkHttp
+moshi = "1.13.0"
+okhttp = "4.9.3"
+retrofit = "2.9.0"
+retrofitKotlinAdapter = "0.9.2"
+
+# Dagger Hilt
+dagger = "2.48"
+
+# KotlinX Serialization
+serializationJson = "1.5.0"
+
+# Desugar JDK
+desugar = "2.0.4"
+
+[libraries]
+# AndroidX
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
+splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
+
+# Firebase
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+
+# Dagger Hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
+
+# Coil
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+
+# Retrofit / Moshi
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
+retrofit-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
+retrofit-coroutines = { module = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter", version.ref = "retrofitKotlinAdapter" }
+
+# Kotlin Serialization
+serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationJson" }
+
+# Testing
+junit4 = { module = "junit:junit", version.ref = "junit4" }
+junit-ext = { module = "androidx.test.ext:junit", version.ref = "junitExt" }
+espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+
+# Desugar JDK
+desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
