@@ -1,9 +1,12 @@
 package com.jar.jasteroidradar.ui.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -24,7 +27,8 @@ import com.jar.jasteroidradar.utils.Constants.PICTURE_OF_DAY_MOCK
 @Composable
 fun SetupAsteroidRadarNavGraph(
     navHostController: NavHostController,
-    onFinishSplash: () -> Unit
+    onFinishSplash: () -> Unit,
+    innerPaddingValues: PaddingValues
 ) {
     val navigationViewModel: NavigationViewModel = hiltViewModel()
     val onBoardingState by navigationViewModel.onBoardingState.collectAsState()
@@ -39,7 +43,9 @@ fun SetupAsteroidRadarNavGraph(
 
     NavHost(
         navController = navHostController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        modifier = Modifier
+            .padding(innerPaddingValues)
     ) {
         composable<Screen.Splash> {
             SplashScreen()

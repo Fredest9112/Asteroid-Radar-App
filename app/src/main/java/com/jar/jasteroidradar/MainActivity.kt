@@ -3,6 +3,9 @@ package com.jar.jasteroidradar
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
@@ -23,12 +26,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AsteroidRadarAppTheme {
-                Surface {
+                Scaffold(
+                    contentWindowInsets = WindowInsets.safeDrawing
+                ) { innerPadding ->
                     SetupAsteroidRadarNavGraph(
                         navHostController = rememberNavController(),
                         onFinishSplash = {
                             keepSplashOpened = false
-                        }
+                        },
+                        innerPaddingValues = innerPadding
                     )
                 }
             }

@@ -11,12 +11,12 @@ plugins {
 
 android {
     namespace = "com.jar.jasteroidradar"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.jar.jasteroidradar"
-        minSdk = 34
-        targetSdk = 34
+        minSdk = 24
+        targetSdk = 35
         versionCode = 6
         versionName = "2.0"
 
