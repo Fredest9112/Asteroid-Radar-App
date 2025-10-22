@@ -17,7 +17,7 @@ android {
         applicationId = "com.jar.jasteroidradar"
         minSdk = 24
         targetSdk = 35
-        versionCode = 6
+        versionCode = 1
         versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
