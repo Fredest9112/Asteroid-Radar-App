@@ -20,7 +20,8 @@ fun AsteroidsHolder(
 ) {
     LazyColumn {
         items(
-            items = asteroids
+            items = asteroids,
+            key = { it.id }
         ) { asteroid ->
             when (asteroidDataState) {
                 AsteroidDataState.LOADING -> {
